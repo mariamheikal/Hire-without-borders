@@ -12,7 +12,9 @@ module.exports = {
       password: Joi.string().required(),
       dateOfBirth: Joi.date(),
       memberPhoneNumber: Joi.string(),
-      isExpert: Joi.boolean(),      
+
+      //isExpert: Joi.boolean(),      
+
       completedTasks: Joi.array(),
       acceptedTasks: Joi.array(),
       appliedInTasks: Joi.array(),
