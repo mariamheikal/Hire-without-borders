@@ -6,7 +6,7 @@ const validator = require("../../Validations/validation");
 const jwt = require("jsonwebtoken");
 const tokenKey = require("../../config/keys").secretOrKey;
 var store = require("store");
-
+const Tasks = require("../../models/Task");
 //View my Profile
 
 router.get("/viewprofile/:idC", async (req, res) => {
@@ -64,5 +64,27 @@ router.delete("/deleteAccount/:id", async (req, res) => {
     console.log(error);
   }
 });
+
+//viewed applied tasks
+router.get("/appliedTasks/:idC=", async (req, res) => {
+  try {
+    const tasks = await User.find({ _id: req.params.idC });
+    if (tasks === undefined || tasks.length == 0)
+      return res.json("No applied tasks");
+    res.json(tasks.pop().appliedInTasks);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
+
+// router.get("/allTasks/:categories", async (req, res) => {
+//   try {
+//     const tasks = await Tasks.find();
+//     if (tasks === undefined) return res.json("No tasks found");
+//     res.json(tasks);
+//   } catch (error) {
+//     res.json({ error: error.message });
+//   }
+// });
 
 module.exports = router;
