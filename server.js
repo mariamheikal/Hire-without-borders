@@ -1,16 +1,16 @@
 //--------------------express-----------------------------------------------
-var express = require('express'),
-    app = express(),
-    server = require('http').createServer(app);
-    global.io = require('socket.io').listen(server),
-    server.listen(process.env.PORT || 4000);
+var express = require("express"),
+  app = express(),
+  server = require("http").createServer(app);
+(global.io = require("socket.io").listen(server)),
+  server.listen(process.env.PORT || 4000);
 
 //--------------------cors--------------------------------------------------
 const cors = require("cors");
-const path = require("path");    
+const path = require("path");
 
 //--------------------api---------------------------------------------------
-const user = require("./routes/api/user")
+const user = require("./routes/api/user");
 //--------------------Mongoose + DB configuration---------------------------
 var mongoose = require("mongoose");
 const db = require("./config/keys_dev").mongoURI;
@@ -20,14 +20,13 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.log(err));
 
-
 //--------------------Init middleware---------------------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 //--------------------Direct routes to appropriate files--------------------
-app.use("./routes/api/user", user);
+app.use("/api/user", user);
 
 //--------------------Handling Error 404------------------------------------
 app.use((req, res) => {
