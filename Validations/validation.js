@@ -16,9 +16,7 @@ module.exports = {
  createUserValidation: request => {
     const createSchema = {
       memberFullName: Joi.string().required(),
-      email: Joi.string()
-        .required()
-        .email(),
+      email: Joi.string().required().email(),
       password: Joi.string().required(),
       dateOfBirth: Joi.string(),
       memberPhoneNumber: Joi.string(),
@@ -45,6 +43,23 @@ module.exports = {
       password: Joi.string().required()
     };
     return Joi.validate(request, loginSchema);
+
+  },
+  updateValidation: request => {
+    const updateSchema = {
+      memberFullName: Joi.string().required(),
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+      dateOfBirth: Joi.string(),
+      memberPhoneNumber: Joi.string(),
+      experienceLevel: Joi.number().min(0).max(5),
+      qualification: Joi.array(),
+      university: Joi.string(),
+      major: Joi.string(),
+      yearOfGraduation: Joi.string()
+    };
+    return Joi.validate(request, updateSchema);
+
   }
 
 };
