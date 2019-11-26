@@ -43,6 +43,7 @@ module.exports = {
       password: Joi.string().required()
     };
     return Joi.validate(request, loginSchema);
+
   },
   updateValidation: request => {
     const updateSchema = {
@@ -58,6 +59,7 @@ module.exports = {
       yearOfGraduation: Joi.string()
     };
     return Joi.validate(request, updateSchema);
+
   }
 
 };
