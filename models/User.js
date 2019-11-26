@@ -35,7 +35,7 @@ const UserSchema = new Schema({
     },
  
     dateOfBirth:{
-        type:Date
+        type:String
     },
     age:{
         type:Number

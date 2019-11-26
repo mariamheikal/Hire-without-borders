@@ -7,6 +7,116 @@ const jwt = require("jsonwebtoken");
 const tokenKey = require("../../config/keys").secretOrKey;
 var store = require("store");
 const Tasks = require("../../models/Task");
+var ObjectId = require("mongodb").ObjectID;
+
+//Create a new task
+
+router.post("/createTask", async (req, res) => {    
+      
+    const {
+      title,
+      ownerID,
+      description,
+      field
+        
+    } = req.body;
+    const isValidated = validator.createTaskValidation(req.body);
+
+      if (isValidated.error)
+       return res
+         .status(400)
+   
+         .send({ error: isValidated.error.details[0].message });
+      const applicants = [];
+     
+     // res.json("test1");  
+      const user= await User.findOne({'_id':ObjectId(ownerID)});
+      if(user === null)
+      {res.json("User id is not correct")}
+    else{
+      const newtask = new Task({
+        title,
+        description,
+        ownerID,
+        applicants,
+        field
+      });      
+      var today = new Date();
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      const uploadedTask = {
+        id: newtask._id,
+        name: newtask.title,
+        date: date
+      }
+    user.uploadedTasks.push(uploadedTask);
+
+    User.updateOne({ _id: ObjectId(ownerID)}, { $set: { uploadedTasks: user.uploadedTasks } }, function(
+      err,
+      model
+    ) {});
+    return res.json({data:"You task was created successfully", user});
+  }
+
+});  
+
+//Create new user account
+router.post("/createNewUserAccount", async (req, res) => {
+    const {
+      memberFullName,
+      password,
+      email,
+      dateOfBirth,
+      memberPhoneNumber,
+      experienceLevel,
+      qualification,
+      university,
+      major,
+      yearOfGraduation
+        
+    } = req.body;
+    const isValidated = validator.createUserValidation(req.body);
+  
+    if (isValidated.error)
+      return res
+        .status(400)
+        .send({ error: isValidated.error.details[0].message });
+  
+    const user = await User.findOne({ email });
+  
+    if (user) return res.status(400).json({ error: "Email already exists" });
+  
+    const salt = bcrypt.genSaltSync(10);
+  
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    const newUser = new User({
+        memberFullName,
+        password: hashedPassword,
+        email,
+        dateOfBirth,
+        memberPhoneNumber,
+        completedTasks: [],
+        acceptedTasks: [],
+        appliedInTasks: [],
+        uploadedTasks: [],
+        experienceLevel,
+        qualification,
+        university,
+        major,
+        yearOfGraduation
+        
+    });
+  
+    newUser
+  
+      .save()
+  
+      .then(user => res.json({ data: user }))
+  
+      .catch(err => res.json(err.message));
+  });
+
+
+
 //View my Profile
 
 router.get("/viewprofile/:idC", async (req, res) => {

@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 // Create the schema
 const TasksSchema = new Schema({
   title: { type: String, required: true },
-  description: { type: String, required: true },
-  ownerID: { type: mongoose.Schema.Types.ObjectId },
+  description: { type: String, required: true},
+  ownerID: { type: mongoose.Schema.Types.ObjectId, required: true },
   applicants: {
     type: Array,
     items: {
@@ -16,7 +16,8 @@ const TasksSchema = new Schema({
       }
     }
   },
-  categories: { type: Array }
+  field:{type: String, required: true}
 });
 
-module.exports = Task = mongoose.model("Tasks", TasksSchema);
+const Task= mongoose.model('tasks', TasksSchema)
+module.exports = Task
