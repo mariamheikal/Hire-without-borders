@@ -1,25 +1,23 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-var connection = mongoose.createConnection(
-  mongoURI
-    //"mongodb+srv://user:1234@break-it-down-8hjy6.mongodb.net/data?retryWrites=true"
-);
 
 // Create the schema
 const TasksSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true},
-  ownerID: { type: Number },
+  ownerID: { type: mongoose.Schema.Types.ObjectId, required: true },
   applicants: {
     type: Array,
     items: {
       type: "object",
       properties: {
-        applicantID: { type: Number },
+        applicantID: { type: mongoose.Schema.Types.ObjectId },
         status: { type: String }
       }
     }
   },
+  field:{type: String, required: true}
 });
 
-module.exports = Task = connection.model("tasks", TasksSchema);
+const Task= mongoose.model('tasks', TasksSchema)
+module.exports = Task
