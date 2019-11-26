@@ -199,12 +199,12 @@ router.get("/appliedTasks/:idC=", async (req, res) => {
 
 //////////////////////////not tested///////////////////////////
 //view accepted tasks
-router.get("/acceptedInTasks/:id=", async (req, res) => {
+router.get("/acceptedInTasks/:id", async (req, res) => {
   try {
-    const user = await User.find({ _id: req.params.id});
-    if (user === undefined )
+    const user = await User.findById(req.params.id);
+    if (user === null )
       return res.json("User not found");
-    else if( user.acceptedInTasks.length == 0)
+    else if( user.acceptedInTasks.length == 0 || user.acceptedInTasks === undefined)
       return res.json("You Are not aceepted in any task yet");
     res.json(user.acceptedInTasks);
   } catch (error) {
@@ -213,12 +213,12 @@ router.get("/acceptedInTasks/:id=", async (req, res) => {
 });
 
 //get all uploaded tasks
-router.get("/viewUploadedtasks/:id=", async (req, res) => {
+router.get("/viewUploadedTasks/:id", async (req, res) => {
   try {
-    const user = await User.find({ _id: req.params.id});
-    if (user === undefined )
+    const user = await User.findById(req.params.id);
+    if (user === null )
       return res.json("User not found");
-    else if(user.uploadedTasks.length == 0)
+    else if(user.uploadedTasks.length == 0 || user.uploadedTask === undefined)
       return res.json("No Tasks on the system");
     res.json(user.uploadedTasks);
   } catch (error) {
@@ -226,15 +226,36 @@ router.get("/viewUploadedtasks/:id=", async (req, res) => {
   }
 });
 
-//delete task
-router.delete("/deletetask/:taskId/:id", async (req, res) => {
+
+router.delete("/deleteTask/:taskId/:id", async (req, res) => {
   try {
-    const task = await Task.findByIdAndRemove({_id: req.params.taskId});
+    const task = await Tasks.findById( req.params.taskId);
+    if (task === null) return res.json("task does not exist");
     res.json({ msg: "Task was deleted ", data: task });
   } catch (error) {
     res.json({ error: error.message });
   }
 });
 
+//get specific task
+router.get("/viewTask/:taskId", async (req, res) => {
+  try {
+    const task = await Tasks.findById(req.params.taskId);
+    if (task === null) return res.json("task does not exist");
+    res.json(task);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
 
+//get user for specific task
+router.get("/viewApplicants/:taskId", async (req, res) => {
+  try {
+    const task = await Tasks.findById(req.params.taskId);
+    if (task === null) return res.json("task does not exist");
+    res.json(task.applicants);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
 module.exports = router;
