@@ -257,7 +257,17 @@ router.get("/viewApplicants/:taskId", async (req, res) => {
 router.get("/viewTask", async (req, res) => {
   try {
     const tasks = await Tasks.find({ isClosed: false });
-    if (tasks == null) return res.json("no tasks found");
+    if (tasks.length == 0 || tasks == null) return res.json("no tasks found");
+    res.json(tasks);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
+//filter task by category
+router.get("/Task/:category", async (req, res) => {
+  try {
+    const tasks = await Tasks.find({ field: req.params.category });
+    if (tasks.length == 0 || tasks == null) return res.json("no tasks found");
     console.log(tasks);
     res.json(tasks);
   } catch (error) {
