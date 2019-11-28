@@ -6,9 +6,10 @@ module.exports = {
     const taskSchema = {
       title: Joi.string().required(),
       description: Joi.string().required(),
-      ownerID: Joi.required(),
+      //ownerID: Joi.required(),
       applicants: Joi.array(),
-      field:Joi.string().required()
+      field:Joi.string().required(),
+      requiredSkills: Joi.array().required()
     }
     return Joi.validate(request, taskSchema);
   },
@@ -29,7 +30,9 @@ module.exports = {
       qualification: Joi.array(),
       university: Joi.string(),
       major: Joi.string(),
-      yearOfGraduation: Joi.string()
+      yearOfGraduation: Joi.string(),
+      skills: Joi.array().required(),
+      field: Joi.string().required()
     };
 
     return Joi.validate(request, createSchema);
