@@ -186,7 +186,7 @@ router.get("/viewTask", async (req, res) => {
   try {
     const tasks = await Tasks.find({ isClosed: false });
     if (tasks.length == 0 || tasks == null) return res.json("no tasks found");
-    res.json(tasks);
+    res.json({ data: tasks });
   } catch (error) {
     res.json({ error: error.message });
   }
