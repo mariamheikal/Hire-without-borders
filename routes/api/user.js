@@ -11,111 +11,105 @@ var ObjectId = require("mongodb").ObjectID;
 
 //Create a new task
 
-router.post("/createTask", async (req, res) => {    
-      
-    const {
-      title,
-      ownerID,
-      description,
-      field
-        
-    } = req.body;
-    const isValidated = validator.createTaskValidation(req.body);
+router.post("/createTask", async (req, res) => {
+  const { title, ownerID, description, field } = req.body;
+  const isValidated = validator.createTaskValidation(req.body);
 
-      if (isValidated.error)
-       return res
-         .status(400)
-   
-         .send({ error: isValidated.error.details[0].message });
-      const applicants = [];
-     
-     // res.json("test1");  
-      const user= await User.findOne({'_id':ObjectId(ownerID)});
-      if(user === null)
-      {res.json("User id is not correct")}
-    else{
-      const newtask = new Task({
-        title,
-        description,
-        ownerID,
-        applicants,
-        field
-      });      
-      var today = new Date();
-      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      const uploadedTask = {
-        id: newtask._id,
-        name: newtask.title,
-        date: date
-      }
+  if (isValidated.error)
+    return res
+      .status(400)
+
+      .send({ error: isValidated.error.details[0].message });
+  const applicants = [];
+
+  // res.json("test1");
+  const user = await User.findOne({ _id: ObjectId(ownerID) });
+  if (user === null) {
+    res.json("User id is not correct");
+  } else {
+    const newtask = new Task({
+      title,
+      description,
+      ownerID,
+      applicants,
+      field
+    });
+    var today = new Date();
+    var date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    const uploadedTask = {
+      id: newtask._id,
+      name: newtask.title,
+      date: date
+    };
     user.uploadedTasks.push(uploadedTask);
 
-    User.updateOne({ _id: ObjectId(ownerID)}, { $set: { uploadedTasks: user.uploadedTasks } }, function(
-      err,
-      model
-    ) {});
-    return res.json({data:"You task was created successfully", user});
+    User.updateOne(
+      { _id: ObjectId(ownerID) },
+      { $set: { uploadedTasks: user.uploadedTasks } },
+      function(err, model) {}
+    );
+    return res.json({ data: "You task was created successfully", user });
   }
-
-});  
+});
 
 //Create new user account
 router.post("/createNewUserAccount", async (req, res) => {
-    const {
-      memberFullName,
-      password,
-      email,
-      dateOfBirth,
-      memberPhoneNumber,
-      experienceLevel,
-      qualification,
-      university,
-      major,
-      yearOfGraduation
-        
-    } = req.body;
-    const isValidated = validator.createUserValidation(req.body);
-  
-    if (isValidated.error)
-      return res
-        .status(400)
-        .send({ error: isValidated.error.details[0].message });
-  
-    const user = await User.findOne({ email });
-  
-    if (user) return res.status(400).json({ error: "Email already exists" });
-  
-    const salt = bcrypt.genSaltSync(10);
-  
-    const hashedPassword = bcrypt.hashSync(password, salt);
-    const newUser = new User({
-        memberFullName,
-        password: hashedPassword,
-        email,
-        dateOfBirth,
-        memberPhoneNumber,
-        completedTasks: [],
-        acceptedTasks: [],
-        appliedInTasks: [],
-        uploadedTasks: [],
-        experienceLevel,
-        qualification,
-        university,
-        major,
-        yearOfGraduation
-        
-    });
-  
-    newUser
-  
-      .save()
-  
-      .then(user => res.json({ data: user }))
-  
-      .catch(err => res.json(err.message));
+  const {
+    memberFullName,
+    password,
+    email,
+    dateOfBirth,
+    memberPhoneNumber,
+    experienceLevel,
+    qualification,
+    university,
+    major,
+    yearOfGraduation
+  } = req.body;
+  const isValidated = validator.createUserValidation(req.body);
+
+  if (isValidated.error)
+    return res
+      .status(400)
+      .send({ error: isValidated.error.details[0].message });
+
+  const user = await User.findOne({ email });
+
+  if (user) return res.status(400).json({ error: "Email already exists" });
+
+  const salt = bcrypt.genSaltSync(10);
+
+  const hashedPassword = bcrypt.hashSync(password, salt);
+  const newUser = new User({
+    memberFullName,
+    password: hashedPassword,
+    email,
+    dateOfBirth,
+    memberPhoneNumber,
+    completedTasks: [],
+    acceptedTasks: [],
+    appliedInTasks: [],
+    uploadedTasks: [],
+    experienceLevel,
+    qualification,
+    university,
+    major,
+    yearOfGraduation
   });
 
+  newUser
 
+    .save()
+
+    .then(user => res.json({ data: user }))
+
+    .catch(err => res.json(err.message));
+});
 
 //View my Profile
 
@@ -202,9 +196,11 @@ router.get("/appliedTasks/:idC=", async (req, res) => {
 router.get("/acceptedInTasks/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    if (user === null )
-      return res.json("User not found");
-    else if( user.acceptedInTasks.length == 0 || user.acceptedInTasks === undefined)
+    if (user === null) return res.json("User not found");
+    else if (
+      user.acceptedInTasks.length == 0 ||
+      user.acceptedInTasks === undefined
+    )
       return res.json("You Are not aceepted in any task yet");
     res.json(user.acceptedInTasks);
   } catch (error) {
@@ -216,9 +212,8 @@ router.get("/acceptedInTasks/:id", async (req, res) => {
 router.get("/viewUploadedTasks/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    if (user === null )
-      return res.json("User not found");
-    else if(user.uploadedTasks.length == 0 || user.uploadedTask === undefined)
+    if (user === null) return res.json("User not found");
+    else if (user.uploadedTasks.length == 0 || user.uploadedTask === undefined)
       return res.json("No Tasks on the system");
     res.json(user.uploadedTasks);
   } catch (error) {
@@ -226,10 +221,9 @@ router.get("/viewUploadedTasks/:id", async (req, res) => {
   }
 });
 
-
 router.delete("/deleteTask/:taskId/:id", async (req, res) => {
   try {
-    const task = await Tasks.findById( req.params.taskId);
+    const task = await Tasks.findById(req.params.taskId);
     if (task === null) return res.json("task does not exist");
     res.json({ msg: "Task was deleted ", data: task });
   } catch (error) {
@@ -248,12 +242,24 @@ router.get("/viewTask/:taskId", async (req, res) => {
   }
 });
 
-//get user for specific task
+//get users who applied for a specific task
 router.get("/viewApplicants/:taskId", async (req, res) => {
   try {
     const task = await Tasks.findById(req.params.taskId);
     if (task === null) return res.json("task does not exist");
     res.json(task.applicants);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
+
+//view all open tasks to apply for
+router.get("/viewTask", async (req, res) => {
+  try {
+    const tasks = await Tasks.find({ isClosed: false });
+    if (tasks == null) return res.json("no tasks found");
+    console.log(tasks);
+    res.json(tasks);
   } catch (error) {
     res.json({ error: error.message });
   }
