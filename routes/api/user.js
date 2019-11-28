@@ -10,212 +10,209 @@ const Task = require("../../models/Task");
 var ObjectId = require("mongodb").ObjectID;
 
 //Create a new task --Tested--
-router.post("/createTask/:ownerId", async (req, res) => {    
-  //return 
+router.post("/createTask/:ownerId", async (req, res) => {
+  //return
   const ownerID = req.params.ownerId;
- //res.json(ownerID);
-   const isClosed = false;
-    const {
-      title,
-      description,
-      field,
-      requiredSkills
-        
-    } = req.body;
-    const isValidated = validator.createTaskValidation(req.body);
+  //res.json(ownerID);
+  const isClosed = false;
+  const { title, description, field, requiredSkills } = req.body;
+  const isValidated = validator.createTaskValidation(req.body);
 
-      if (isValidated.error)
-       return res
-         .status(400)
-   
-         .send({ error: isValidated.error.details[0].message });
-     
-     const applicants = [];
-     
-     // res.json("test1");  
-      const user= await User.findOne({'_id':ObjectId(ownerID)});
-      if(user === null)
-       return res.json("User id is not correct")
-    
-      const newtask = new Task({
-        title,
-        description,
-        ownerID,
-        applicants,
-        field,
-        requiredSkills,
-        isClosed
-      });      
-      var today = new Date();
-      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      const uploadedTask = {
-        id: newtask._id,
-        name: newtask.title,
-        date: date
-      }
-    user.uploadedTasks.push(uploadedTask);
+  if (isValidated.error)
+    return res
+      .status(400)
 
-    User.updateOne({ _id: ObjectId(ownerID)}, { $set: { uploadedTasks: user.uploadedTasks } }, function(
-      err,
-      model
-    ) {});
-    newtask
-  
+      .send({ error: isValidated.error.details[0].message });
+
+  const applicants = [];
+
+  // res.json("test1");
+  const user = await User.findOne({ _id: ObjectId(ownerID) });
+  if (user === null) return res.json("User id is not correct");
+
+  const newtask = new Task({
+    title,
+    description,
+    ownerID,
+    applicants,
+    field,
+    requiredSkills,
+    isClosed
+  });
+  var today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  const uploadedTask = {
+    id: newtask._id,
+    name: newtask.title,
+    date: date
+  };
+  user.uploadedTasks.push(uploadedTask);
+
+  User.updateOne(
+    { _id: ObjectId(ownerID) },
+    { $set: { uploadedTasks: user.uploadedTasks } },
+    function(err, model) {}
+  );
+  newtask
+
     .save()
 
     .then(user => res.json({ data: newtask }))
 
     .catch(err => res.json(err.message));
-  
-
-});  
-
+});
 
 //Create new user account --Tested--
 router.post("/createNewUserAccount", async (req, res) => {
-    const {
-      memberFullName,
-      password,
-      email,
-      dateOfBirth,
-      memberPhoneNumber,
-      experienceLevel,
-      qualification,
-      university,
-      major,
-      yearOfGraduation,
-      skills
-        
-    } = req.body;
-    const isValidated = validator.createUserValidation(req.body);
-  
-    if (isValidated.error)
-      return res
-        .status(400)
-        .send({ error: isValidated.error.details[0].message });
-  
-    const user = await User.findOne({ email });
-  
-    if (user) return res.status(400).json({ error: "Email already exists" });
-  
-    const salt = bcrypt.genSaltSync(10);
-  
-    const hashedPassword = bcrypt.hashSync(password, salt);
-    const newUser = new User({
-        memberFullName,
-        password: hashedPassword,
-        email,
-        dateOfBirth,
-        memberPhoneNumber,
-        completedTasks: [],
-        acceptedTasks: [],
-        appliedInTasks: [],
-        uploadedTasks: [],
-        experienceLevel,
-        qualification,
-        university,
-        major,
-        yearOfGraduation,
-        skills
-        
-    });
-  
-    newUser
-  
-      .save()
-  
-      .then(user => res.json({ data: user }))
-  
-      .catch(err => res.json(err.message));
+  const {
+    memberFullName,
+    password,
+    email,
+    dateOfBirth,
+    memberPhoneNumber,
+    experienceLevel,
+    qualification,
+    university,
+    major,
+    yearOfGraduation,
+    skills
+  } = req.body;
+  const isValidated = validator.createUserValidation(req.body);
+
+  if (isValidated.error)
+    return res
+      .status(400)
+      .send({ error: isValidated.error.details[0].message });
+
+  const user = await User.findOne({ email });
+
+  if (user) return res.status(400).json({ error: "Email already exists" });
+
+  const salt = bcrypt.genSaltSync(10);
+
+  const hashedPassword = bcrypt.hashSync(password, salt);
+  const newUser = new User({
+    memberFullName,
+    password: hashedPassword,
+    email,
+    dateOfBirth,
+    memberPhoneNumber,
+    completedTasks: [],
+    acceptedTasks: [],
+    appliedInTasks: [],
+    uploadedTasks: [],
+    experienceLevel,
+    qualification,
+    university,
+    major,
+    yearOfGraduation,
+    skills
   });
 
-  //Apply for a task --Tested--
-  router.put("/applyForTask/:taskId/:applicantId", async(req, res) => {
-    try{
-      const taskID = req.params.taskId;
-      const applID = req.params.applicantId;
-      const task = await Task.findById(taskID);
-      const user = await  User.findById(applID);
-      if (task === null) return res.json("This task does not exist");
-      else if (user === null) return res.json("This user does not exist");
-      if(task.isClosed===false){
-      task.applicants.push( {applicantID: ObjectId(applID),status: "Pending"});
-      
-      Task.updateOne({ _id: ObjectId(taskID)}, { $set: { applicants: task.applicants } }, function(
-      err,
-      model
-      ) {});
-  
+  newUser
+
+    .save()
+
+    .then(user => res.json({ data: user }))
+
+    .catch(err => res.json(err.message));
+});
+
+//Apply for a task --Tested--
+router.put("/applyForTask/:taskId/:applicantId", async (req, res) => {
+  try {
+    const taskID = req.params.taskId;
+    const applID = req.params.applicantId;
+    const task = await Task.findById(taskID);
+    const user = await User.findById(applID);
+    if (task === null) return res.json("This task does not exist");
+    else if (user === null) return res.json("This user does not exist");
+    if (task.isClosed === false) {
+      task.applicants.push({
+        applicantID: ObjectId(applID),
+        status: "Pending"
+      });
+
+      Task.updateOne(
+        { _id: ObjectId(taskID) },
+        { $set: { applicants: task.applicants } },
+        function(err, model) {}
+      );
+
       var today = new Date();
-      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    
+      var date =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
+
       const appliedInTask = {
         id: ObjectId(taskID),
         name: task.title,
         date: date
-      }
-  
-      user.appliedInTasks.push(appliedInTask);
-      User.updateOne({ _id: ObjectId(applID)}, { $set: { appliedInTasks: user.appliedInTasks } }, function(
-        err,
-        model
-      ) {});
-      return res.json({data:"You applied in task successfully", user});
-      }
-      else return res.json("Sorry this task does not accept applicants anymore.");
-    }
-    catch (error) {
-      res.json({ error: error.message });
-    }
-  });
+      };
 
-  //Close task --Tested--
-  router.put("/closeTask/:taskId", async (req, res) =>{
-   try{
+      user.appliedInTasks.push(appliedInTask);
+      User.updateOne(
+        { _id: ObjectId(applID) },
+        { $set: { appliedInTasks: user.appliedInTasks } },
+        function(err, model) {}
+      );
+      return res.json({ data: "You applied in task successfully", user });
+    } else
+      return res.json("Sorry this task does not accept applicants anymore.");
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
+
+//Close task --Tested--
+router.put("/closeTask/:taskId", async (req, res) => {
+  try {
     const taskID = req.params.taskId;
     const task = await Task.findById(taskID);
     if (task === null) return res.json("This task does not exist");
-    if(task.isClosed===false){
-     task= Task.findOneAndUpdate({ _id: ObjectId(taskID)}, { $set: { isClosed: true } }, function(
-        err,
-        model
-        ) {});
-        return res.json({data:"Task is successfully closed.", task});
-    }
-    else return res.json("Task is already closed.");
-
-   }
-   catch (error){
+    if (task.isClosed === false) {
+      task = Task.findOneAndUpdate(
+        { _id: ObjectId(taskID) },
+        { $set: { isClosed: true } },
+        function(err, model) {}
+      );
+      return res.json({ data: "Task is successfully closed.", task });
+    } else return res.json("Task is already closed.");
+  } catch (error) {
     res.json({ error: error.message });
-   }
-  });
+  }
+});
 
-  //Accept user for a task --Tested--
-  router.put("/acceptApplicant/:taskId/:applicantId", async (req, res) => {
-    try {
-      const taskID = req.params.taskId;
-      const applID = req.params.applicantId;
-      const task = await Task.findById(taskID);
-      const user = await  User.findById(applID);
-      if (task === null) return res.json("This task does not exist");
-      else if (user === null) return res.json("This user does not exist");
-      //3ayza ashof law fe3lan el user da one of the applicants of this task
-      
-      var updatedTask = await Task.findOneAndUpdate(
-      { _id: ObjectId(taskID)},
-      {  $set: { "applicants.$[i].status": "Accepted" } },
-      {  arrayFilters: [{ "i.applicantID": (applID) }]}
+//Accept user for a task --Tested--
+router.put("/acceptApplicant/:taskId/:applicantId", async (req, res) => {
+  try {
+    const taskID = req.params.taskId;
+    const applID = req.params.applicantId;
+    const task = await Task.findById(taskID);
+    const user = await User.findById(applID);
+    if (task === null) return res.json("This task does not exist");
+    else if (user === null) return res.json("This user does not exist");
+    //3ayza ashof law fe3lan el user da one of the applicants of this task
+
+    var updatedTask = await Task.findOneAndUpdate(
+      { _id: ObjectId(taskID) },
+      { $set: { "applicants.$[i].status": "Accepted" } },
+      { arrayFilters: [{ "i.applicantID": applID }] }
     );
-     updatedTask= await Task.findOneAndUpdate({ _id: ObjectId(taskID)}, { $set: { isClosed: true } }, function(
-      err,
-      model
-      ) {});
-    res.json({msg:"Applicant accepted successfully",data:updatedTask})
-    }
-    catch (error){
-      res.json({ error: error.message });
-    }
-  });
+    updatedTask = await Task.findOneAndUpdate(
+      { _id: ObjectId(taskID) },
+      { $set: { isClosed: true } },
+      function(err, model) {}
+    );
+    res.json({ msg: "Applicant accepted successfully", data: updatedTask });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
 
 //View my Profile
 
@@ -223,7 +220,7 @@ router.get("/viewprofile/:idC", async (req, res) => {
   try {
     const user = await User.find({ _id: req.params.idC });
     if (user === undefined) return res.json("user does not exist");
-    res.json(user.pop());
+    res.json({ data: user.pop() });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -281,7 +278,7 @@ router.get("/appliedTasks/:idC=", async (req, res) => {
     const tasks = await User.find({ _id: req.params.idC });
     if (tasks === undefined || tasks.length == 0)
       return res.json("No applied tasks");
-    res.json(tasks.pop().appliedInTasks);
+    res.json({ data: tasks.pop().appliedInTasks });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -292,7 +289,7 @@ router.get("/viewTask", async (req, res) => {
   try {
     const tasks = await Tasks.find({ isClosed: false });
     if (tasks.length == 0 || tasks == null) return res.json("no tasks found");
-    res.json(tasks);
+    res.json({ data: tasks });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -302,8 +299,8 @@ router.get("/Task/:category", async (req, res) => {
   try {
     const tasks = await Tasks.find({ field: req.params.category });
     if (tasks.length == 0 || tasks == null) return res.json("no tasks found");
-    console.log(tasks);
-    res.json(tasks);
+    // console.log(tasks);
+    res.json({ data: tasks });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -320,7 +317,7 @@ router.get("/acceptedInTasks/:id", async (req, res) => {
       user.acceptedInTasks === undefined
     )
       return res.json("You Are not aceepted in any task yet");
-    res.json(user.acceptedInTasks);
+    res.json({ data: user.acceptedInTasks });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -333,7 +330,7 @@ router.get("/viewUploadedTasks/:id", async (req, res) => {
     if (user === null) return res.json("User not found");
     else if (user.uploadedTasks.length == 0 || user.uploadedTask === undefined)
       return res.json("No Tasks on the system");
-    res.json(user.uploadedTasks);
+    res.json({ data: user.uploadedTasks });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -354,7 +351,7 @@ router.get("/viewTask/:taskId", async (req, res) => {
   try {
     const task = await Task.findById(req.params.taskId);
     if (task === null) return res.json("task does not exist");
-    res.json(task);
+    res.json({ data: task });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -365,7 +362,7 @@ router.get("/viewApplicants/:taskId", async (req, res) => {
   try {
     const task = await Task.findById(req.params.taskId);
     if (task === null) return res.json("task does not exist");
-    res.json(task.applicants);
+    res.json({ data: task.applicants });
   } catch (error) {
     res.json({ error: error.message });
   }
