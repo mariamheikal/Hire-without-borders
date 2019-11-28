@@ -217,8 +217,6 @@ router.post("/createNewUserAccount", async (req, res) => {
     }
   });
 
-
-
 //View my Profile
 
 router.get("/viewprofile/:idC", async (req, res) => {
@@ -289,24 +287,38 @@ router.get("/appliedTasks/:idC=", async (req, res) => {
   }
 });
 
-// router.get("/allTasks/:categories", async (req, res) => {
-//   try {
-//     const tasks = await Tasks.find();
-//     if (tasks === undefined) return res.json("No tasks found");
-//     res.json(tasks);
-//   } catch (error) {
-//     res.json({ error: error.message });
-//   }
-// });
+//view all open tasks to apply for
+router.get("/viewTask", async (req, res) => {
+  try {
+    const tasks = await Tasks.find({ isClosed: false });
+    if (tasks.length == 0 || tasks == null) return res.json("no tasks found");
+    res.json(tasks);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
+//filter task by category
+router.get("/Task/:category", async (req, res) => {
+  try {
+    const tasks = await Tasks.find({ field: req.params.category });
+    if (tasks.length == 0 || tasks == null) return res.json("no tasks found");
+    console.log(tasks);
+    res.json(tasks);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
 
 //////////////////////////not tested///////////////////////////
 //view accepted tasks
 router.get("/acceptedInTasks/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    if (user === null )
-      return res.json("User not found");
-    else if( user.acceptedInTasks.length == 0 || user.acceptedInTasks === undefined)
+    if (user === null) return res.json("User not found");
+    else if (
+      user.acceptedInTasks.length == 0 ||
+      user.acceptedInTasks === undefined
+    )
       return res.json("You Are not aceepted in any task yet");
     res.json(user.acceptedInTasks);
   } catch (error) {
@@ -318,9 +330,8 @@ router.get("/acceptedInTasks/:id", async (req, res) => {
 router.get("/viewUploadedTasks/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    if (user === null )
-      return res.json("User not found");
-    else if(user.uploadedTasks.length == 0 || user.uploadedTask === undefined)
+    if (user === null) return res.json("User not found");
+    else if (user.uploadedTasks.length == 0 || user.uploadedTask === undefined)
       return res.json("No Tasks on the system");
     res.json(user.uploadedTasks);
   } catch (error) {
@@ -328,10 +339,9 @@ router.get("/viewUploadedTasks/:id", async (req, res) => {
   }
 });
 
-
 router.delete("/deleteTask/:taskId/:id", async (req, res) => {
   try {
-    const task = await Task.findById( req.params.taskId);
+    const task = await Tasks.findById(req.params.taskId);
     if (task === null) return res.json("task does not exist");
     res.json({ msg: "Task was deleted ", data: task });
   } catch (error) {
@@ -350,7 +360,7 @@ router.get("/viewTask/:taskId", async (req, res) => {
   }
 });
 
-//get user for specific task
+//get users who applied for a specific task
 router.get("/viewApplicants/:taskId", async (req, res) => {
   try {
     const task = await Task.findById(req.params.taskId);
@@ -361,5 +371,64 @@ router.get("/viewApplicants/:taskId", async (req, res) => {
   }
 });
 
+//--------------login---------------------//
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ email: "Email does not exist" });
+    if (password == null) return res.send("wrong password");
+    const match = bcrypt.compareSync(password, user.password);
+    if (match) {
+      const payload = {
+        id: user._id,
+        name: user.memberFullName,
+        email: user.email
+      };
+      const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+      console.log(token);
+      store.set("token", token);
+      console.log("added");
+      //console.log(jwt_payload.name);
+      res.json({ token: `Bearer ${token}` });
+    } else return res.status(400).send({ password: "Wrong password" });
+  } catch (e) {}
+});
 
+router.get("/logout", async (req, res) => {
+  console.log("logout");
+  store.remove("token");
+  res.send("logged out");
+});
+
+const checkToken = (req, res, next) => {
+  const header = store.get("token");
+  if (typeof header !== "undefined") {
+    req.token = header;
+    //next middleware
+    next();
+  } else {
+    //If header is undefined return Forbidden (403)
+    res.sendStatus(403);
+  }
+};
+
+//This is a protected route
+router.get("/user/auth", checkToken, (req, res) => {
+  //verify the JWT token generated for the user
+  jwt.verify(store.get("token"), tokenKey, (err, authorizedData) => {
+    if (err) {
+      //If error send Forbidden (403)
+      console.log("ERROR: Could not connect to the protected route");
+      res.sendStatus(403);
+    } else {
+      //If token is successfully verified, we can send the autorized data
+      res.json({
+        message: "Successful log in",
+        authorizedData
+      });
+      console.log("SUCCESS: Connected to protected route");
+    }
+  });
+});
 module.exports = router;
