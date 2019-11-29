@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const tokenKey = require("../../config/keys").secretOrKey;
 var store = require("store");
 const Task = require("../../models/Task");
+const Tasks = require("../../models/Task");
 var ObjectId = require("mongodb").ObjectID;
 
 //Create a new task --Tested--
