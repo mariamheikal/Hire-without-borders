@@ -374,8 +374,8 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ email: "Email does not exist" });
-    if (password == null) return res.send("wrong password");
+    if (!user) return res.status(404).json({ data: "Email does not exist" });
+    if (password == null) return res.send({ data: "wrong password" });
     const match = bcrypt.compareSync(password, user.password);
     if (match) {
       const payload = {
@@ -387,16 +387,17 @@ router.post("/login", async (req, res) => {
       console.log(token);
       store.set("token", token);
       console.log("added");
-      //console.log(jwt_payload.name);
-      res.json({ token: `Bearer ${token}` });
-    } else return res.status(400).send({ password: "Wrong password" });
+      console.log();
+      //res.json({ data: ` ${token}` });
+      res.json({ data: "logged in" });
+    } else return res.status(400).send({ data: "Wrong password" });
   } catch (e) {}
 });
 
 router.get("/logout", async (req, res) => {
   console.log("logout");
   store.remove("token");
-  res.send("logged out");
+  res.json("logged out");
 });
 
 const checkToken = (req, res, next) => {
@@ -429,4 +430,15 @@ router.get("/user/auth", checkToken, (req, res) => {
     }
   });
 });
+
+router.get("/getname", async (req, res) => {
+  jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
+    if (err) {
+    } else {
+      console.log(authorizedData.name);
+    }
+    res.json(authorizedData.name);
+  });
+});
+
 module.exports = router;
