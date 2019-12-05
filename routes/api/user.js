@@ -413,7 +413,7 @@ const checkToken = (req, res, next) => {
 };
 
 //This is a protected route
-router.get("/user/auth", checkToken, (req, res) => {
+router.get("/auth", checkToken, (req, res) => {
   //verify the JWT token generated for the user
   jwt.verify(store.get("token"), tokenKey, (err, authorizedData) => {
     if (err) {
