@@ -15,9 +15,9 @@ class Login extends Component {
       isLoading: false,
       email: "",
       password: "",
-      userID: null,
-      coID: null,
-      type: null
+      id: null,
+      name: "",
+      login: false
     };
     this.handleSignIn = this.handleSignIn.bind(this);
   }
@@ -35,14 +35,15 @@ class Login extends Component {
         .post("http://localhost:3333/api/user/login", info)
         .then(response => {
           axios
-            .get("/api/CreateAccount/user/auth", {
+            .get("/api/user/auth", {
               headers: { Authorization: response.data }
             })
             .then(response => {
-              console.log(response.data.authorizedData.type);
               this.setState({
-                coID: response.data.authorizedData.id,
-                type: response.data.authorizedData.type
+                id: response.data.authorizedData.id,
+                type: response.data.authorizedData.name,
+                email: response.data.authorizedData.email,
+                login: true
               });
             })
             .catch(error => {
@@ -58,7 +59,7 @@ class Login extends Component {
         });
   };
   async handleGoogle() {
-    const profile = await axios.get("http://localhost:3333/auth/google");
+    const profile = await axios.get("http://localhost:4000/auth/google");
     console.log("using google");
   }
 
@@ -79,7 +80,7 @@ class Login extends Component {
   }
 
   render() {
-    if (this.state.coID === null) {
+    if (this.state.login === false) {
       return (
         <div>
           <style type="text/css">
@@ -147,17 +148,11 @@ class Login extends Component {
           </Jumbotron>
         </div>
       );
-    } else if (this.state.type === "coworkingSpace") {
-      // console.log(this.state.coID)
-
-      this.props.history.push(`/coworkingSpace/${this.state.coID}`);
-      return <div />;
-    } else if (this.state.type === "member") {
-      // console.log(this.state.coID)
-
-      this.props.history.push(`/Memberhomepage/${this.state.coID}`);
-      return <div />;
+    } else {
+      this.props.history.push(`/home`);
     }
+
+    return <div />;
   }
 }
 
