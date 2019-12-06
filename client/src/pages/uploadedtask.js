@@ -12,6 +12,7 @@ class uploadedtasks extends Component {
     super(props);
     this.state = {
       tasks: [],
+      coID: window.location.pathname.split("/").pop(),
       message: ""
     };
   }
@@ -37,16 +38,14 @@ class uploadedtasks extends Component {
       }
     });
   }
-  deletetask(taskid) {
+  deletetask = (e, taskid) => {
+    e.preventDefault();
     // const coID = this.props.coID;
     // console.log("test " + coID);
     fetch(`http://localhost:3333/api/user/deleteTask/` + taskid, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      }
+      method: "DELETE"
     });
-  }
+  };
 
   render() {
     const { tasks } = this.state;
@@ -67,18 +66,24 @@ class uploadedtasks extends Component {
                     <p class="card-text">{"description: " + el.description}</p>
                     <p class="card-text">{"status: " + el.isClosed}</p>
 
-                    <button
+                    {/* <button
                       type="button"
                       class="btn btn-outline-dark"
-                      onClick={this.closetask.bind(el.id)}
+                      onClick={e => {
+                        this.closetask(el.id);
+                        window.location.reload();
+                      }}
                     >
                       change to close
-                    </button>
+                    </button> */}
 
                     <button
                       type="button"
                       class="btn btn-outline-dark"
-                      onClick={this.deletetask.bind(el.id)}
+                      onClick={e => {
+                        this.deletetask(e, el.id);
+                        window.location.reload();
+                      }}
                     >
                       delete task
                     </button>
