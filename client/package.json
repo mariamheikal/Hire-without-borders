@@ -12,6 +12,7 @@
     "map": "^1.0.1",
     "mdbreact": "^4.12.0",
     "react": "^16.8.6",
+    "react-bell-icon": "^1.0.1",
     "react-bootstrap": "^1.0.0-beta.6",
     "react-burger-menu": "^2.6.9",
     "react-dom": "^16.8.6",
@@ -23,7 +24,9 @@
     "react-scripts": "^2.1.8",
     "reactstrap": "^8.0.0",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "semantic-ui-react": "^0.88.1",
+    "yarn": "^1.21.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,7 +37,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:4000",
+  "proxy": "http://localhost:3333",
   "browserslist": [
     ">0.2%",
     "not dead",

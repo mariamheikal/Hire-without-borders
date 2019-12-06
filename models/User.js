@@ -74,11 +74,6 @@ const UserSchema = new Schema({
         type: String,
         required: false
     },
-    skills: {
-        type: Array,
-        required: true
-
-    },
     field: {type:String, required: true}
 
 })

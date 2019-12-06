@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import usersideNav from "../components/usersidenav";
 import { Jumbotron, Button, Form, ButtonToolbar } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
@@ -6,6 +7,7 @@ import validator from "../validations/validation";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Redirect } from "react-router";
 import { BrowserHistory } from "react-router-dom";
+import SideNav from "../components/SideNav";
 
 class Login extends Component {
   constructor(props) {
@@ -59,7 +61,7 @@ class Login extends Component {
         });
   };
   async handleGoogle() {
-    const profile = await axios.get("http://localhost:4000/auth/google");
+    const profile = await axios.get("http://localhost:3333/auth/google");
     console.log("using google");
   }
 
@@ -81,9 +83,18 @@ class Login extends Component {
 
   render() {
     if (this.state.login === false) {
+          const divStyle = {
+      width: "100%",
+
+      height: "1000px",
+
+      backgroundSize: "cover"
+    };
       return (
+        
         <div>
           <style type="text/css">
+          
             {`
     .btn-flat {
       background-color: orange;
@@ -106,8 +117,8 @@ class Login extends Component {
           </style>
 
           <Jumbotron>
-            <h1>Welcome to LIRTEN HUB!</h1>
-            <p>Create Your Own Future</p>
+            <h1 style={{"font-family":"Century Gothic","font-weight": "bold"}}>   Hire without borders</h1>
+            <h4 style={{"font-family":"Century Gothic"}}>A platform to hire or get hired.</h4>
             <Form>
               <Form.Group controlId="formBasicEmail">
                 <Form.Control
@@ -127,21 +138,22 @@ class Login extends Component {
 
               <Button
                 variant="flat"
+                style={{"font-family":"Century Gothic"}}
                 size="xxl"
                 block
                 onClick={e => this.handleSignIn(e)}
               >
                 SIGN IN
               </Button>
-              <Link to={`/signUp`}>
-                <NavLink to="/signUp">
+              <Link to={`/signup`}>
+                <NavLink style={{"font-family":"Century Gothic"}} to="/signup">
                   Don't have an account yet? SIGN UP
                 </NavLink>
               </Link>
             </Form>
             <br />
             <ButtonToolbar>
-              <Button variant="google" onClick={this.handleGoogle}>
+              <Button style={{"font-family":"Century Gothic"}} variant="google" onClick={this.handleGoogle}>
                 Sign in with Google+
               </Button>
             </ButtonToolbar>

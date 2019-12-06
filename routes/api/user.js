@@ -77,7 +77,7 @@ router.post("/createNewUserAccount", async (req, res) => {
     university,
     major,
     yearOfGraduation,
-    skills
+    field
   } = req.body;
   const isValidated = validator.createUserValidation(req.body);
 
@@ -108,7 +108,7 @@ router.post("/createNewUserAccount", async (req, res) => {
     university,
     major,
     yearOfGraduation,
-    skills
+    field
   });
 
   newUser

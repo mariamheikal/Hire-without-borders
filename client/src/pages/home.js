@@ -1,4 +1,5 @@
-import usersideNav from "../components/usersidenav";
+import NavbarPage from "../components/Navbar";
+import SideNav from "../components/SideNav";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -13,9 +14,8 @@ class home extends Component {
   }
   render() {
     return (
-      <div>
-        <usersideNav />
-      </div>
+            <NavbarPage/>
+      
     );
   }
 }
