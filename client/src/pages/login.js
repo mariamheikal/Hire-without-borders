@@ -123,7 +123,7 @@ class Login extends Component {
               Hire without borders
             </h1>
             <h4 style={{ "font-family": "Century Gothic" }}>
-              A platform to hire or get hired.
+              Get any task done.
             </h4>
             <Form>
               <Form.Group controlId="formBasicEmail">
