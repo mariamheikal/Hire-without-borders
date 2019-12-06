@@ -347,16 +347,24 @@ router.get("/acceptedInTasks/:id", async (req, res) => {
 });
 
 //get all uploaded tasks
-router.get("/viewUploadedTasks/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (user === null) return res.json("User not found");
-    else if (user.uploadedTasks.length == 0 || user.uploadedTask === undefined)
-      return res.json("No Tasks on the system");
-    res.json({ data: user.uploadedTasks });
-  } catch (error) {
-    res.json({ error: error.message });
-  }
+router.get("/viewUploadedTasks", async (req, res) => {
+  jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
+    if (err) {
+      res.json({ tasks: "you are not authorized to view this page" });
+      console.log(err);
+    } else {
+      try {
+        const user = await User.findById(authorizedData.id);
+        console.log(user.uploadedTasks);
+        if (user === null) return res.json("User not found");
+
+        return res.json(user.uploadedTasks);
+      } catch (error) {
+        res.json({ error: error.message });
+      }
+      console.log(authorizedData.id);
+    }
+  });
 });
 
 router.delete("/deleteTask/:taskId/:id", async (req, res) => {
