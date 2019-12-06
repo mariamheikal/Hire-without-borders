@@ -11,8 +11,7 @@ class uploadedtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [],
-      message: ""
+      tasks: []
     };
   }
   // Fetch the list on first mount
@@ -23,30 +22,10 @@ class uploadedtasks extends Component {
   gettasks = async () => {
     // const coID = this.props.coID;
     // console.log("test " + coID);
-    await fetch(`http://localhost:3333/api/user/viewUploadedTasks`)
+    await fetch(`http://localhost:3333/api/user/appliedTasks`)
       .then(res => res.json())
       .then(tasks => this.setState({ tasks }));
   };
-  closetask(taskid) {
-    // const coID = this.props.coID;
-    // console.log("test " + coID);
-    fetch(`http://localhost:3333/api/user/closeTask/` + taskid, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-  }
-  deletetask(taskid) {
-    // const coID = this.props.coID;
-    // console.log("test " + coID);
-    fetch(`http://localhost:3333/api/user/deleteTask/` + taskid, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-  }
 
   render() {
     const { tasks } = this.state;
@@ -73,14 +52,6 @@ class uploadedtasks extends Component {
                       onClick={this.closetask(el.id)}
                     >
                       change to close
-                    </button>
-
-                    <button
-                      type="button"
-                      class="btn btn-outline-dark"
-                      onClick={this.deletetask(el.id)}
-                    >
-                      delete task
                     </button>
                   </div>
                   <Link to={`/viewTask/${el.id}`}>

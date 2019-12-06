@@ -5,6 +5,8 @@ import Login from "./pages/login";
 import home from "./pages/home";
 import signup from "./pages/signup";
 import uploadedtasks from "./pages/uploadedtask";
+import appliedtasks from "./pages/appliedtask";
+
 class App extends Component {
   render() {
     return (
@@ -14,6 +16,7 @@ class App extends Component {
           <Route exact path="/home" component={home} />
           <Route exact path="/signup" component={signup} />
           <Route exact path="/uploadedtasks" component={uploadedtasks} />
+          <Route exact path="/appliedtasks" component={appliedtasks} />
         </div>
       </Router>
     );
