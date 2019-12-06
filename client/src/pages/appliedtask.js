@@ -11,8 +11,7 @@ class uploadedtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [],
-      message: ""
+      tasks: []
     };
   }
   // Fetch the list on first mount
@@ -23,30 +22,10 @@ class uploadedtasks extends Component {
   gettasks = async () => {
     // const coID = this.props.coID;
     // console.log("test " + coID);
-    await fetch(`http://localhost:3333/api/user/viewUploadedTasks`)
+    await fetch(`http://localhost:3333/api/user/appliedTasks`)
       .then(res => res.json())
       .then(tasks => this.setState({ tasks }));
   };
-  closetask(taskid) {
-    // const coID = this.props.coID;
-    // console.log("test " + coID);
-    fetch(`http://localhost:3333/api/user/closeTask/` + taskid, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-  }
-  deletetask(taskid) {
-    // const coID = this.props.coID;
-    // console.log("test " + coID);
-    fetch(`http://localhost:3333/api/user/deleteTask/` + taskid, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-  }
 
   render() {
     const { tasks } = this.state;
@@ -65,22 +44,13 @@ class uploadedtasks extends Component {
                   </h5>
                   <div class="card-body" class="btn btn-outline-dark">
                     <p class="card-text">{"description: " + el.description}</p>
-                    <p class="card-text">{"status: " + el.isClosed}</p>
 
                     <button
                       type="button"
                       class="btn btn-outline-dark"
-                      onClick={this.closetask.bind(el.id)}
+                      onClick={this.closetask(el.id)}
                     >
                       change to close
-                    </button>
-
-                    <button
-                      type="button"
-                      class="btn btn-outline-dark"
-                      onClick={this.deletetask.bind(el.id)}
-                    >
-                      delete task
                     </button>
                   </div>
                   <Link to={`/viewTask/${el.id}`}>

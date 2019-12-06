@@ -8,7 +8,7 @@ const tokenKey = require("../../config/keys").secretOrKey;
 var store = require("store");
 const Task = require("../../models/Task");
 var ObjectId = require("mongodb").ObjectID;
-
+const Tasks = require("../../models/Task");
 //Create a new task --Tested--
 router.post("/createTask/:ownerId", async (req, res) => {
   //return
@@ -296,15 +296,22 @@ router.delete("/deleteAccount/:id", async (req, res) => {
 });
 
 //viewed applied tasks
-router.get("/appliedTasks/:idC=", async (req, res) => {
-  try {
-    const tasks = await User.find({ _id: req.params.idC });
-    if (tasks === undefined || tasks.length == 0)
-      return res.json("No applied tasks");
-    res.json({ data: tasks.pop().appliedInTasks });
-  } catch (error) {
-    res.json({ error: error.message });
-  }
+router.get("/appliedTasks", async (req, res) => {
+  jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
+    if (err) {
+      res.json({ tasks: "you are not authorized to view this page" });
+      console.log(err);
+    } else {
+      try {
+        const tasks = await User.find(authorizedData.id);
+        if (tasks === undefined || tasks.length == 0)
+          return res.json("No applied tasks");
+        res.json({ data: tasks.pop().appliedInTasks });
+      } catch (error) {
+        res.json({ error: error.message });
+      }
+    }
+  });
 });
 
 //view all open tasks to apply for
@@ -312,7 +319,7 @@ router.get("/viewTask", async (req, res) => {
   try {
     const tasks = await Tasks.find({ isClosed: false });
     if (tasks.length == 0 || tasks == null) return res.json("no tasks found");
-    res.json({ data: tasks });
+    res.json(tasks);
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -367,14 +374,29 @@ router.get("/viewUploadedTasks", async (req, res) => {
   });
 });
 
-router.delete("/deleteTask/:taskId/:id", async (req, res) => {
-  try {
-    const task = await Tasks.findById(req.params.taskId);
-    if (task === null) return res.json("task does not exist");
-    res.json({ msg: "Task was deleted ", data: task });
-  } catch (error) {
-    res.json({ error: error.message });
-  }
+router.delete("/deleteTask/:taskId", async (req, res) => {
+  jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
+    if (err) {
+      res.json({ tasks: "you are not authorized to view this page" });
+      console.log(err);
+    } else {
+      try {
+        const user = await User.find(authorizedData.id);
+        const task1 = user.uploadedTasks;
+        const deletetask = await task1.findOneAndDelete({
+          id: req.params.taskId
+        });
+        const task = await Tasks.findOneAndDelete({ _id: req.params.taskId });
+
+        console.log("sssssss");
+        console.log(user);
+
+        res.json({ msg: "Task was deleted ", data: task });
+      } catch (error) {
+        res.json({ error: error.message });
+      }
+    }
+  });
 });
 
 //get specific task
