@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import usersideNav from "../components/usersidenav";
 import { Jumbotron, Button, Form, ButtonToolbar } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
@@ -7,7 +6,6 @@ import validator from "../validations/validation";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Redirect } from "react-router";
 import { BrowserHistory } from "react-router-dom";
-import SideNav from "../components/SideNav";
 
 class Login extends Component {
   constructor(props) {
@@ -45,7 +43,7 @@ class Login extends Component {
             .then(response => {
               this.setState({
                 id: response.data.authorizedData.id,
-                name: response.data.authorizedData.name,
+                type: response.data.authorizedData.name,
                 email: response.data.authorizedData.email,
                 login: true
               });

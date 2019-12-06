@@ -8,6 +8,7 @@ import {
   NavItem
 } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
+import ContactUs from "../components/ContactUs";
 class NavbarPage extends Component {
   state = {
     whichPage: this.props.whichPage
@@ -21,6 +22,8 @@ class NavbarPage extends Component {
           <NavItem>
             <Nav.Link style={{"color":"#FAFAFA","font-family":"Century Gothic"}} href="/login" >My uploaded tasks</Nav.Link>
           </NavItem>
+        
+        
         </Nav>
 
         <Form inline>

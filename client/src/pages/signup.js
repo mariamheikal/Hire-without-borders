@@ -117,20 +117,20 @@ class signup extends Component {
   async handleSubmit(event) {
     console.log("handled");
     const info = {
-        memberFullName: this.state.memberFullName,
+      memberFullName: this.state.memberFullName,
       password: this.state.password,
       email: this.state.email,
       dateOfBirth: this.state.dateOfBirth,
       memberPhoneNumber: this.state.memberPhoneNumber,
-      experienceLevel: this.state.memberPhoneNumber,
+      experienceLevel: this.state.experienceLevel,
       qualification: this.state.qualification.map(getValue),
       university: this.state.university,
       major: this.state.major,
       yearOfGraduation: this.state.yearOfGraduation
     };
-    const isValidated = validator.createAccountValidation(info);
+    const isValidated = validator.createUserValidation(info);
     if (isValidated.error) alert(isValidated.error.details[0].message);
-    else
+    else{
       await axios
         .post("http://localhost:3333/api/user/createNewUserAccount", info)
         .then(function(response) {
@@ -146,7 +146,7 @@ class signup extends Component {
           alert("Use another email, this email is taken");
         });
   }
-
+  }
   handleSelect(eventKey) {
     alert(`selected ${eventKey}`);
     this.setState({ value: eventKey });
@@ -260,6 +260,16 @@ class signup extends Component {
               onChange={evt => this.updateMajor(evt)}
             />
           </Form.Group>
+
+
+          <Form.Group controlId="formGridUniversity">
+            <Form.Label style={{"font-family":"Century Gothic"}} >University</Form.Label>
+            <Form.Control
+              placeholder="e.g. GUC"
+              onChange={evt => this.updateUniversity(evt)}
+            />
+          </Form.Group>
+
 
           <Form.Group controlId="formGridExperienceLevel">
             <Form.Label style={{"font-family":"Century Gothic"}}>Experience Level </Form.Label>

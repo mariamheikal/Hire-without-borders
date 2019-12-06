@@ -121,58 +121,61 @@ router.post("/createNewUserAccount", async (req, res) => {
 
 //Apply for a task --Tested--
 router.put("/applyForTask/:taskId", async (req, res) => {
-        jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
-        if (err) {
-          //If error send Forbidden (403)
-          console.log("ERROR: Could not connect to the protected route");
-          res.sendStatus(403);
-        } else {
-  try {
-    const taskID = req.params.taskId;
-    const applID = req.params.applicantId;
-    const task = await Task.findById(taskID);
-    const user = await User.findById(authorizedData.id);
-    if (task === null) return res.json("This task does not exist");
-    else if (user === null) return res.json("This user does not exist");
-    if (task.isClosed === false) {
-      task.applicants.push({
-        applicantID: ObjectId(applID),
-        status: "Pending"
-      });
+  jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
+    if (err) {
+      //If error send Forbidden (403)
+      console.log("ERROR: Could not connect to the protected route");
+      res.sendStatus(403);
+    } else {
+      try {
+        const taskID = req.params.taskId;
+        const applID = req.params.applicantId;
+        const task = await Task.findById(taskID);
+        const user = await User.findById(authorizedData.id);
+        if (task === null) return res.json("This task does not exist");
+        else if (user === null) return res.json("This user does not exist");
+        if (task.isClosed === false) {
+          task.applicants.push({
+            applicantID: ObjectId(applID),
+            status: "Pending"
+          });
 
-      Task.updateOne(
-        { _id: ObjectId(taskID) },
-        { $set: { applicants: task.applicants } },
-        function(err, model) {}
-      );
+          Task.updateOne(
+            { _id: ObjectId(taskID) },
+            { $set: { applicants: task.applicants } },
+            function(err, model) {}
+          );
 
-      var today = new Date();
-      var date =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
+          var today = new Date();
+          var date =
+            today.getFullYear() +
+            "-" +
+            (today.getMonth() + 1) +
+            "-" +
+            today.getDate();
 
-      const appliedInTask = {
-        id: ObjectId(taskID),
-        name: task.title,
-        date: date
-      };
+          const appliedInTask = {
+            id: ObjectId(taskID),
+            name: task.title,
+            date: date
+          };
 
-      user.appliedInTasks.push(appliedInTask);
-      User.updateOne(
-        { _id: ObjectId(applID) },
-        { $set: { appliedInTasks: user.appliedInTasks } },
-        function(err, model) {}
-      );
-      return res.json({ data: "You applied in task successfully", user });
-    } else
-      return res.json("Sorry this task does not accept applicants anymore.");
-  } 
-  }catch (error) {
-    res.json({ error: error.message });
-  }
+          user.appliedInTasks.push(appliedInTask);
+          User.updateOne(
+            { _id: ObjectId(applID) },
+            { $set: { appliedInTasks: user.appliedInTasks } },
+            function(err, model) {}
+          );
+          return res.json({ data: "You applied in task successfully", user });
+        } else
+          return res.json(
+            "Sorry this task does not accept applicants anymore."
+          );
+      } catch (error) {
+        res.json({ error: error.message });
+      }
+    }
+  });
 });
 
 //Close task --Tested--
@@ -206,7 +209,6 @@ router.get("/getUserData", (req, res) => {
     }
   });
 });
-
 
 //Accept user for a task --Tested--
 router.put("/acceptApplicant/:taskId/:applicantId", async (req, res) => {
@@ -396,7 +398,7 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ data: "Email does not exist" });
     if (password == null) return res.send({ data: "wrong password" });
-    const match = bcrypt.compareSync(password , user.password);
+    const match = bcrypt.compareSync(password, user.password);
     if (match) {
       const payload = {
         id: user._id,

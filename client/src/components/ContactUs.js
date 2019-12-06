@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Icon, Container, Header } from "semantic-ui-react";
-import Side from "./SideNav";
 
 class ContactUs extends Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class ContactUs extends Component {
         <Container text>
           <Header as="h1" color="orange">
             <Icon name="at" size="small" />
-            Email: lirten_hub@companies.com
+            Email: hire-without-borders@companies.com
           </Header>
           <Header as="h1" color="orange">
             <Icon name="call" size="small" />
