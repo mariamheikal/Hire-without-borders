@@ -386,7 +386,7 @@ router.delete("/deleteTask/:taskId", async (req, res) => {
         const deletetask = await task1.findOneAndDelete({
           id: req.params.taskId
         });
-        const task = await Tasks.findByIdAndRemove(req.params.taskId);
+        const task = await Tasks.findOneAndDelete({ _id: req.params.taskId });
 
         console.log("sssssss");
         console.log(user);

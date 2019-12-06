@@ -70,7 +70,7 @@ class uploadedtasks extends Component {
                     <button
                       type="button"
                       class="btn btn-outline-dark"
-                      onClick={this.closetask(el.id)}
+                      onClick={this.closetask.bind(el.id)}
                     >
                       change to close
                     </button>
@@ -78,7 +78,7 @@ class uploadedtasks extends Component {
                     <button
                       type="button"
                       class="btn btn-outline-dark"
-                      onClick={this.deletetask(el.id)}
+                      onClick={this.deletetask.bind(el.id)}
                     >
                       delete task
                     </button>
