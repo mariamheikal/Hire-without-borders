@@ -44,7 +44,6 @@ class uploadedtasks extends Component {
                   </h5>
                   <div class="card-body" class="btn btn-outline-dark">
                     <p class="card-text">{"description: " + el.description}</p>
-                    <p class="card-text">{"status: " + el.isClosed}</p>
 
                     <button
                       type="button"
