@@ -14,20 +14,20 @@ class NavbarPage extends Component {
   };
   render() {
     return (
-      <Navbar style={{ backgroundColor: "#005a73" }}>
+      <Navbar style={{ backgroundColor: "//#endregion" }}>
         <Nav className="mr-auto">
-          <text>..............</text>
-          <Nav.Link href="/">Home</Nav.Link>
+          <text> </text>
+          <Nav.Link style={{"color":"#FAFAFA","font-family":"Century Gothic"}} href="/">Home</Nav.Link>
           <NavItem>
-            <Nav.Link href="/login" >viewCoworkingSpace</Nav.Link>
+            <Nav.Link style={{"color":"#FAFAFA","font-family":"Century Gothic"}} href="/login" >My uploaded tasks</Nav.Link>
           </NavItem>
         </Nav>
 
         <Form inline>
-          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-          <Button variant="outline-info">Search</Button>
+          <FormControl  type="text" placeholder="Search" className="mr-sm-2" />
+          <Button style={{"color":"#FAFAFA","font-family":"Century Gothic"}} variant="outline-info">Search</Button>
         </Form>
-        <Nav.Link href="/login">SignOut</Nav.Link>
+        <Nav.Link style={{"color":"#FAFAFA","font-family":"Century Gothic"}} href="#home">SignOut</Nav.Link>
       </Navbar>
     );
   }

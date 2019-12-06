@@ -1,6 +1,5 @@
 // import React from 'react';
 import { bubble as Menu } from "react-burger-menu";
-import Search from "../components/Search";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import BellIcon from "react-bell-icon";
 import { Icon, Modal } from "semantic-ui-react";
@@ -19,7 +18,7 @@ class SideNav extends Component {
   // Retrieves the list of items from the Express app
   getList = async () => {
     //const coID = this.props.match.params.coID;
-    await fetch(`/api/member/getUserData/`).then(data => {
+    await fetch(`/api/user/getUserData/`).then(data => {
       this.setState({ data });
     });
 
@@ -38,17 +37,17 @@ class SideNav extends Component {
   };
   render() {
     // const type = this.state.data.type;
-    const coID = this.state.coID;
+    const coID = this.state.id;
 
     // console.log(coID + " " + this.state.type);
 
       var styles = {
         bmBurgerButton: {
           position: "fixed",
-          width: "36px",
-          height: "30px",
-          left: "36px",
-          top: "36px"
+          width: "30px",
+          height: "20px",
+          left: "26px",
+          top: "56px"
         },
         bmBurgerBars: {
           background: "#373a47"
@@ -57,8 +56,8 @@ class SideNav extends Component {
           background: "#a90000"
         },
         bmCrossButton: {
-          height: "24px",
-          width: "24px"
+          height: "14px",
+          width: "14px"
         },
         bmCross: {
           background: "black"
@@ -89,26 +88,26 @@ class SideNav extends Component {
       return (
         <div>
           <Menu styles={styles} disableAutoFocus>
-            <Search />
+        
             <br />
             <br />
             <br />
             <a className="menu-item" href="/">
               <h3>
-                <Icon name="user outline" size="large" /> My Profile
+                <Icon style={{"font-family":"Century Gothic"}} name="user outline" size="small" /> My Profile
               </h3>
             </a>
             <br />
             <a className="menu-item" href={`/`}>
               <h3>
-                <Icon name="list" size="large" />
+                <Icon style={{"font-family":"Century Gothic"}}  size="small" />
                 My Tasks
               </h3>
             </a>
             <br />
             <a className="menu-item" href={`/`}>
               <h3>
-                <Icon name="calendar plus" size="large" />
+                <Icon style={{"font-family":"Century Gothic"}}  size="small" />
                 Create a task
               </h3>
             </a>
@@ -119,9 +118,9 @@ class SideNav extends Component {
                 style={{
                   position: "absolute",
 
-                  left: "50%",
+                  left: "20%",
 
-                  top: "50%",
+                  top: "20%",
 
                   transform: "translate(-50%, -50%)"
                 }}
@@ -148,9 +147,9 @@ class SideNav extends Component {
                 style={{
                   position: "absolute",
 
-                  left: "50%",
+                  left: "20%",
 
-                  top: "50%",
+                  top: "20%",
 
                   transform: "translate(-50%, -50%)"
                 }}

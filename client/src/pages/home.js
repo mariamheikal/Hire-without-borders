@@ -9,13 +9,30 @@ import { Route, NavLink, BrowserRouter } from "react-router-dom";
 import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 class home extends Component {
-  constructor(props) {
+   constructor(props){
     super(props);
+    this.state = {
+    }
   }
   render() {
+         const { info } = this.state;
+     const coID = this.props.match.params.id;
+
     return (
+      <div>
+            <SideNav/>
             <NavbarPage/>
-      
+
+             <div className="App">
+         <h1>Your Info</h1>            
+              
+               {'name:'}
+               <span>{this.state.name}</span> <br/>
+               {'email: '}
+               <span>{this.state.email}</span><br/>
+              
+           </div>
+      </div>
     );
   }
 }

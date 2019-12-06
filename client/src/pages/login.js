@@ -17,8 +17,10 @@ class Login extends Component {
       isLoading: false,
       email: "",
       password: "",
-      id: null,
+      coID: window.location.pathname.split("/").pop(),
       name: "",
+      major:"",
+      
       login: false
     };
     this.handleSignIn = this.handleSignIn.bind(this);
@@ -43,7 +45,7 @@ class Login extends Component {
             .then(response => {
               this.setState({
                 id: response.data.authorizedData.id,
-                type: response.data.authorizedData.name,
+                name: response.data.authorizedData.name,
                 email: response.data.authorizedData.email,
                 login: true
               });

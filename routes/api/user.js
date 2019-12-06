@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 const tokenKey = require("../../config/keys").secretOrKey;
 var store = require("store");
 const Task = require("../../models/Task");
-const Tasks = require("../../models/Task");
 var ObjectId = require("mongodb").ObjectID;
 
 //Create a new task --Tested--
@@ -121,12 +120,18 @@ router.post("/createNewUserAccount", async (req, res) => {
 });
 
 //Apply for a task --Tested--
-router.put("/applyForTask/:taskId/:applicantId", async (req, res) => {
+router.put("/applyForTask/:taskId", async (req, res) => {
+        jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
+        if (err) {
+          //If error send Forbidden (403)
+          console.log("ERROR: Could not connect to the protected route");
+          res.sendStatus(403);
+        } else {
   try {
     const taskID = req.params.taskId;
     const applID = req.params.applicantId;
     const task = await Task.findById(taskID);
-    const user = await User.findById(applID);
+    const user = await User.findById(authorizedData.id);
     if (task === null) return res.json("This task does not exist");
     else if (user === null) return res.json("This user does not exist");
     if (task.isClosed === false) {
@@ -164,7 +169,8 @@ router.put("/applyForTask/:taskId/:applicantId", async (req, res) => {
       return res.json({ data: "You applied in task successfully", user });
     } else
       return res.json("Sorry this task does not accept applicants anymore.");
-  } catch (error) {
+  } 
+  }catch (error) {
     res.json({ error: error.message });
   }
 });
@@ -187,6 +193,20 @@ router.put("/closeTask/:taskId", async (req, res) => {
     res.json({ error: error.message });
   }
 });
+
+router.get("/getUserData", (req, res) => {
+  jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
+    if (err) {
+      //If error send Forbidden (403)
+      console.log("ERROR: Could not connect to the protected route");
+      //res.json({ error: "forbidden", status: "403" });
+      res.sendStatus(403);
+    } else {
+      res.send(authorizedData);
+    }
+  });
+});
+
 
 //Accept user for a task --Tested--
 router.put("/acceptApplicant/:taskId/:applicantId", async (req, res) => {
@@ -376,7 +396,7 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ data: "Email does not exist" });
     if (password == null) return res.send({ data: "wrong password" });
-    const match = bcrypt.compareSync(password, user.password);
+    const match = bcrypt.compareSync(password , user.password);
     if (match) {
       const payload = {
         id: user._id,
