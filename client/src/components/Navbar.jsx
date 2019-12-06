@@ -32,10 +32,17 @@ class NavbarPage extends Component {
           </Nav.Link>
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
+            href="/createtask"
+          >
+            Create tasks
+          </Nav.Link>
+          <Nav.Link
+            style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
             href="/uploadedtasks"
           >
             My uploaded tasks
           </Nav.Link>
+
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
             href="/appliedtasks"
