@@ -39,13 +39,20 @@ class uploadedtasks extends Component {
             {tasks.map(el => {
               return (
                 <div key={el.id} class="card">
-                  <h5 class="card-header">{"Task" + " " + el.name}</h5>
+                  <h5 class="card-header">{el.name}</h5>
                   <div class="card-body">
-                    <p class="card-text">{"Room capacity: " + el.id}</p>
+                    <p class="card-text">{"description: " + el.description}</p>
                   </div>
                   <Link to={`http://localhost:3333/api/user/viewTask/${el.id}`}>
                     <button type="button" class="btn btn-outline-dark">
                       View tasks
+                    </button>
+                  </Link>
+                  <Link
+                    to={`http://localhost:3333/api/user/applyForTask/${el.id}`}
+                  >
+                    <button type="button" class="btn btn-outline-dark">
+                      Apply
                     </button>
                   </Link>
                 </div>
