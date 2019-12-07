@@ -9,6 +9,7 @@ import createtask from "./pages/createtask";
 import myprofile from "./pages/myprofile";
 import appliedtasks from "./pages/appliedtask";
 import viewtask from "./pages/viewtask";
+import editprofile from "./pages/editprofile";
 class App extends Component {
   render() {
     return (
@@ -29,6 +30,7 @@ class App extends Component {
           <Route exact path="/createtask/:userID" component={createtask} />
           <Route exact path="/myprofile/:userID" component={myprofile} />
           <Route exact path="/viewtask/:userID/:taskID" component={viewtask} />
+          <Route exact path="/editprofile" component={editprofile} />
         </div>
       </Router>
     );
