@@ -1,14 +1,12 @@
-
-
 import NavbarPage from "../components/Navbar";
-import SideNav from "../components/SideNav";
+//import SideNav from "../components/SideNav";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
+//import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 
-import { Route, NavLink, BrowserRouter } from "react-router-dom";
-import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
+//import { Route, NavLink, BrowserRouter } from "react-router-dom";
+//import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 class myprofile extends Component {
    constructor(props){
@@ -51,6 +49,7 @@ class myprofile extends Component {
       });
   }
   render() {
+      console.log("MY PROFILE");
     const { info } = this.state;
     const userID = this.state.userID;
        console.log(info)

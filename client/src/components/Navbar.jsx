@@ -14,8 +14,9 @@ class NavbarPage extends Component {
     await fetch(`http://localhost:3333/api/user/logout`).then(res => res.json());
   };
   render() {
-    console.log("Navbar");
     const userID = this.state.userID;
+        console.log(userID);
+    console.log("NAVBAR");
     console.log(userID);
     return (
       <Navbar style={{ backgroundColor: "//#endregion" }}>
@@ -42,7 +43,7 @@ class NavbarPage extends Component {
           </Nav.Link>
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
-            href="/uploadedtasks"
+            href={`/uploadedtasks/${userID}`}
           >
             My uploaded tasks
           </Nav.Link>

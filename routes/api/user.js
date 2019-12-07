@@ -51,6 +51,7 @@ router.post("/createTask", async (req, res) => {
   const uploadedTask = {
     id: newtask._id,
     name: newtask.title,
+    description: 
     date: date
   };
   user.uploadedTasks.push(uploadedTask);
