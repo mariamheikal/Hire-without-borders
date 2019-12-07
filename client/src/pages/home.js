@@ -80,18 +80,16 @@ import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import { Route, NavLink, BrowserRouter } from "react-router-dom";
 import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
-
 class home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      info: {},
       tasks: [],
-      userID: window.location.pathname.split("/").pop(),
       message: ""
     };
   }
-  //Fetch the list on first mount
+  // Fetch the list on first mount
+
   componentDidMount() {
     this.gettasks();
   }
@@ -101,64 +99,32 @@ class home extends Component {
     await fetch(`http://localhost:3333/api/user/viewTasks`)
       .then(res => res.json())
       .then(tasks => this.setState({ tasks }));
-      console.log(this.state.tasks);
   };
 
-  applyForTask(taskid, userID) {
-
-    // const coID = this.props.coID;
-     console.log("test " + taskid);
-    fetch(`http://localhost:3333/api/user/applyForTask/${userID}/${taskid}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      }
-         
-    })
-    .then(function(response) {
-          console.log("apply is successful");
-          alert(
-            "You successfully applied in the task."
-          );
-        });
-    
-
-  }
-
   render() {
-        const userID = this.state.userID;
-    console.log(userID);
-    console.log("UPLOADED TASKS");
     const { tasks } = this.state;
-    console.log(tasks);
+    console.log(this.state.tasks);
     return (
       <div>
-      <NavbarPage userID={this.props.match.params.userID}/>
+        <NavbarPage />
+
         {tasks.length ? (
           <div>
             {tasks.map(el => {
-              console.log(el.id)
               return (
-                <div key={el._id} class="card">
+                <div key={el.id} class="card">
                   <h5 class="card-header" class="btn btn-outline-dark">
                     {el.title}
                   </h5>
                   <div class="card-body" class="btn btn-outline-dark">
-                      <h5 style={{ "font-family": "Century Gothic" }} class="card-text">{"Description: " + el.description}</h5>
-                     <h5 style={{ "font-family": "Century Gothic" }} class="card-text">  {"Required Skills: " + el.requiredSkills}</h5>
-                    <button
-                      type="button"
-                      class="btn btn-outline-dark"
-                      onClick={this.applyForTask.bind(el.id,userID)}
-                    >
-                     Apply
-                    </button>
-
-  
+                    <p class="card-text">{"description: " + el.description}</p>
+                    <p class="card-text">
+                      {"skills required: " + el.requiredSkills}
+                    </p>
                   </div>
-                  <Link to={`/viewtask/${userID}/${el._id}`}>
+                  <Link to={`/viewTask/${el._id}`}>
                     <button type="button" class="btn btn-outline-dark">
-                      View task details
+                      View this task
                     </button>
                   </Link>
                 </div>
@@ -167,7 +133,7 @@ class home extends Component {
           </div>
         ) : (
           <div>
-            <h2>No task is found.</h2>
+            <h2>Loading or No task is found.</h2>
           </div>
         )}
       </div>
