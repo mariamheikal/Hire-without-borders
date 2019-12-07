@@ -1,32 +1,32 @@
 import React, { Component } from "react";
 import {
   Nav,
-  Navbar,
-  Form,
-  FormControl,
-  Button,
-  NavItem,
-  NavDropdown
+  Navbar
 } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import ContactUs from "../components/ContactUs";
 class NavbarPage extends Component {
   state = {
-    whichPage: this.props.whichPage
+    whichPage: this.props.whichPage,
+    userID:this.props.userID
   };
   render() {
+    console.log("Navbar");
+    const userID = this.state.userID;
+    console.log(userID);
     return (
       <Navbar style={{ backgroundColor: "//#endregion" }}>
         <Nav className="mr-auto">
           <text> </text>
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
-            href="/profile"
+            href={`/myprofile/${userID}`}
+            //href="/myprofile//${userID}"
           >
-            my profile
+            My profile
           </Nav.Link>
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
-            href="/home"
+            href={`/home/${userID}`}
           >
             Home
           </Nav.Link>
@@ -34,7 +34,7 @@ class NavbarPage extends Component {
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
             href="/createtask"
           >
-            Create tasks
+            Create a task
           </Nav.Link>
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}

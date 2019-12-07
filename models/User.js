@@ -11,7 +11,7 @@ const InfoSchema = new Schema({
 
     },
     date:{
-        type:Date
+        type:String
     },
     status: {
         type: String,
@@ -61,7 +61,7 @@ const UserSchema = new Schema({
         type: Number,
         enum: [0, 1, 2, 3, 4, 5]
     },
-    qualification: [SkillSchema],
+    qualification: [],
     university: {
         type: String,
         required: false

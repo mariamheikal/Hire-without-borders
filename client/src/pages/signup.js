@@ -39,6 +39,12 @@ class signup extends Component {
     });
   }
 
+  updateYearOfGraduation(evt) {
+    this.setState({
+      yearOfGraduation: evt.target.value
+    });
+  }
+
   updateSkill1(evt) {
     this.setState({
       skill1: evt.target.value
@@ -105,6 +111,8 @@ class signup extends Component {
     });
   }
 
+
+
   handleClick() {
     this.setState({ isLoading: true }, () => {
       simulateNetworkRequest().then(() => {
@@ -117,36 +125,38 @@ class signup extends Component {
   async handleSubmit(event) {
     console.log("handled");
     const info = {
-        memberFullName: this.state.memberFullName,
+      memberFullName: this.state.memberFullName,
       password: this.state.password,
       email: this.state.email,
       dateOfBirth: this.state.dateOfBirth,
       memberPhoneNumber: this.state.memberPhoneNumber,
-      experienceLevel: this.state.memberPhoneNumber,
+      experienceLevel: this.state.experienceLevel,
       qualification: this.state.qualification.map(getValue),
       university: this.state.university,
       major: this.state.major,
-      yearOfGraduation: this.state.yearOfGraduation
+      yearOfGraduation: this.state.yearOfGraduation,
+      field: this.state.field
     };
-    const isValidated = validator.createAccountValidation(info);
+    const isValidated = validator.createUserValidation(info);
     if (isValidated.error) alert(isValidated.error.details[0].message);
-    else
+    else{
       await axios
         .post("http://localhost:3333/api/user/createNewUserAccount", info)
         .then(function(response) {
           console.log("user create is successful");
           alert(
-            "Congratulations! Your account has been created successfully. Start to hire or tune up to get hired!."
+            "Congratulations! Your account has been created successfully. You can now login"
           );
+          console.log(info);
           event.preventDefault();
           window.location = "/";
         })
         .catch(function(error) {
           console.log(error);
-          alert("Use another email, this email is taken");
+          alert(error.message);
         });
   }
-
+  }
   handleSelect(eventKey) {
     alert(`selected ${eventKey}`);
     this.setState({ value: eventKey });
@@ -200,7 +210,7 @@ class signup extends Component {
     `}
         </style>
         <br />
-        <h1 style={{ "font-family":"Century Gothic","font-weight": "bold"}}>Create an account</h1>
+        <h2 style={{ "font-family":"Century Gothic","font-weight": "bold"}}>Create an account</h2>
         <br />
         
         <h3 style={{"font-family":"Century Gothic"}}> Fill in your details </h3>
@@ -261,6 +271,16 @@ class signup extends Component {
             />
           </Form.Group>
 
+
+          <Form.Group controlId="formGridUniversity">
+            <Form.Label style={{"font-family":"Century Gothic"}} >University</Form.Label>
+            <Form.Control
+              placeholder="e.g. GUC"
+              onChange={evt => this.updateUniversity(evt)}
+            />
+          </Form.Group>
+
+
           <Form.Group controlId="formGridExperienceLevel">
             <Form.Label style={{"font-family":"Century Gothic"}}>Experience Level </Form.Label>
             <Form.Control
@@ -270,16 +290,23 @@ class signup extends Component {
             />
           </Form.Group>
 
+          <Form.Group controlId="formGridGraduationYear">
+            <Form.Label style={{"font-family":"Century Gothic"}}>Graduation Year  </Form.Label>
+            <Form.Control
+               typr="Number"
+              onChange={evt => this.updateYearOfGraduation(evt)}
+            />
+          </Form.Group>
 
           <Form.Row>
 
             <Form.Group as={Col} controlId="formGridSkill">
-              <Form.Label style={{"font-family":"Century Gothic"}}>Skills</Form.Label>
+              <Form.Label style={{"font-family":"Century Gothic"}}>Qualifications</Form.Label>
               {this.state.qualification.map((skill, idx) => (
                 <div className="skill">
                   <input
                     type="text"
-                    placeholder={`Skill ${idx + 1} `}
+                    placeholder={`Qualification ${idx + 1} `}
                     value={skill.name}
                     onChange={this.handleSkillNameChange(idx)}
                   />

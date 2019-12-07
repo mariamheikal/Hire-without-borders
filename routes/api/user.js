@@ -10,10 +10,16 @@ const Task = require("../../models/Task");
 var ObjectId = require("mongodb").ObjectID;
 const Tasks = require("../../models/Task");
 //Create a new task --Tested--
-router.post("/createTask/:ownerId", async (req, res) => {
+router.post("/createTask", async (req, res) => {
+  jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
+    if (err) {
+      //If error send Forbidden (403)
+      console.log("ERROR: Could not connect to the protected route");
+      res.sendStatus(403);
+    } else {
   //return
-  const ownerID = req.params.ownerId;
-  //res.json(ownerID);
+  const ownerID = authorizedData.id;
+  console.log(ownerID);
   const isClosed = false;
   const { title, description, field, requiredSkills } = req.body;
   const isValidated = validator.createTaskValidation(req.body);
@@ -61,6 +67,8 @@ router.post("/createTask/:ownerId", async (req, res) => {
     .then(user => res.json({ data: newtask }))
 
     .catch(err => res.json(err.message));
+  }
+})
 });
 
 //Create new user account --Tested--
@@ -79,11 +87,13 @@ router.post("/createNewUserAccount", async (req, res) => {
     field
   } = req.body;
   const isValidated = validator.createUserValidation(req.body);
+  console.log("User created backend tested 1");
 
   if (isValidated.error)
     return res
       .status(400)
       .send({ error: isValidated.error.details[0].message });
+      console.log("User created backend tested 2");
 
   const user = await User.findOne({ email });
 
@@ -92,6 +102,8 @@ router.post("/createNewUserAccount", async (req, res) => {
   const salt = bcrypt.genSaltSync(10);
 
   const hashedPassword = bcrypt.hashSync(password, salt);
+  console.log("User created backend tested 3");
+
   const newUser = new User({
     memberFullName,
     password: hashedPassword,
@@ -109,6 +121,7 @@ router.post("/createNewUserAccount", async (req, res) => {
     yearOfGraduation,
     field
   });
+  console.log("User created backend tested 4");
 
   newUser
 
@@ -117,6 +130,8 @@ router.post("/createNewUserAccount", async (req, res) => {
     .then(user => res.json({ data: user }))
 
     .catch(err => res.json(err.message));
+
+    console.log("User created backend tested 5");
 });
 
 //Apply for a task --Tested--
@@ -241,6 +256,7 @@ router.put("/acceptApplicant/:taskId/:applicantId", async (req, res) => {
 
 router.get("/viewprofile/:idC", async (req, res) => {
   try {
+    console.log("view profile");
     const user = await User.find({ _id: req.params.idC });
     if (user === undefined) return res.json("user does not exist");
     res.json({ data: user.pop() });
@@ -248,6 +264,21 @@ router.get("/viewprofile/:idC", async (req, res) => {
     res.json({ error: error.message });
   }
 });
+
+router.get("/getUserInfo/:idC", async (req, res) => {
+  try {
+    console.log("User Info");
+    const user = await User.find({ _id: req.params.idC });
+    if (user === undefined) return res.json("user does not exist");
+    console.log(user);
+    console.log(user.pop);
+    res.json( user.pop() );
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
+
+
 
 //edit my Profile
 router.put("/updateprofile/:idC", async (req, res) => {
@@ -433,15 +464,26 @@ router.post("/login", async (req, res) => {
       const payload = {
         id: user._id,
         name: user.memberFullName,
-        email: user.email
+        email: user.email,
+        field:user.field,
+        major:user.major,
+        qualification:user.qualification,
+        dateOfBirth:user.dateOfBirth,
+        university:user.university,
+        phoneNumber:user.memberPhoneNumber,
+        experienceLevel:user.experienceLevel,
+        yearOfGraduation:user.yearOfGraduation
+
       };
       const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
       console.log(token);
       store.set("token", token);
+      console.log(payload);
       console.log("added");
-      console.log();
-      //res.json({ data: ` ${token}` });
-      res.json({ data: "logged in" });
+      res.json({ token: `Bearer ${token}` });
+      console.log(` ${token}`);
+      console.log("End of login");
+      //res.json({ data: "logged in" });
     } else return res.status(400).send({ data: "Wrong password" });
   } catch (e) {}
 });
@@ -475,7 +517,7 @@ router.get("/auth", checkToken, (req, res) => {
     } else {
       //If token is successfully verified, we can send the autorized data
       res.json({
-        message: "Successful log in",
+        message: "Successful login",
         authorizedData
       });
       console.log("SUCCESS: Connected to protected route");
@@ -492,5 +534,7 @@ router.get("/getname", async (req, res) => {
     res.json(authorizedData.name);
   });
 });
+
+
 
 module.exports = router;
