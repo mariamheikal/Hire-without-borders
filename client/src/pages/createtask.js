@@ -85,6 +85,7 @@ class createtask extends Component {
     const isValidated = validator.createTaskValidation(info);
     if (isValidated.error) alert(isValidated.error.details[0].message);
     else{
+      const userID = this.state.userID;
       await axios
         .post("http://localhost:3333/api/user/createTask", info)
         .then(function(response) {
@@ -93,7 +94,7 @@ class createtask extends Component {
             "Congratulations! Your task has been created successfully."
           );
           event.preventDefault();
-          window.location = "/createtask";
+          window.location = `/createtask/${userID}`;
         })
         .catch(function(error) {
           console.log(error);
@@ -133,7 +134,8 @@ class createtask extends Component {
   
   render() {
               const userID = this.state.userID;
-
+console.log(userID);
+console.log("CREATE TASK");
     return (
       <div>
       <NavbarPage userID={this.props.match.params.userID}/>

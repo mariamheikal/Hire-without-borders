@@ -193,6 +193,7 @@ class signup extends Component {
 
 
   render() {
+    console.log("SIGN UP");
     return (
       
       <div>

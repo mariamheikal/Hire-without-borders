@@ -1,7 +1,9 @@
 h1 {
   color:  black;
 }
-
+h2{
+  color:#ede1e3;
+}
 h4 {
   color:  grey;
 }
@@ -12,7 +14,7 @@ h3 {
   color:black;
 }
 p {
-  color:  grey;
+  color: #D3D3D3;
 }
 
 div.a {
