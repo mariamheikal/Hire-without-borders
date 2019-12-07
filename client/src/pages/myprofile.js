@@ -69,6 +69,7 @@ class myprofile extends Component {
                     <h5  style={{ "font-family": "Century Gothic" }} class="card-text" >{this.state.name}</h5>
                     <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Majored in: "+this.state.major}</p>
                     <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Email: "+this.state.email}</p>
+                    <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Mobile Number: "+this.state.phoneNumber}</p>
                     <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Date of birth: "+this.state.dateOfBirth}</p>
                     <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Field of experience: "+this.state.field}</p>
                     <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Experience level: "+this.state.experienceLevel}</p>

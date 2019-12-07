@@ -17,11 +17,11 @@ class Login extends Component {
       password: "",
       field: "",
       major: "",
-      qualification: "",
+      qualification: [],
       dateOfBirth: "",
       university: "",
       phoneNumber: "",
-      experienceLevel: "",
+      experienceLevel: 0,
       yearOfGraduation: "",
       login: false
     };
