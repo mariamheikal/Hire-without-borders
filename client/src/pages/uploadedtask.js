@@ -28,16 +28,17 @@ class uploadedtasks extends Component {
       .then(res => res.json())
       .then(tasks => this.setState({ tasks }));
   };
-  closetask(taskid) {
+  closetask = (e, taskid) => {
     // const coID = this.props.coID;
     // console.log("test " + coID);
+    e.preventDefault();
     fetch(`http://localhost:3333/api/user/closeTask/` + taskid, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
       }
     });
-  }
+  };
   deletetask = (e, taskid) => {
     e.preventDefault();
     // const coID = this.props.coID;

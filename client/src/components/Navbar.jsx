@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import {
-  Nav,
-  Navbar
-} from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 import ContactUs from "../components/ContactUs";
 class NavbarPage extends Component {
   state = {
-    whichPage: this.props.whichPage,
-    userID:this.props.userID
+    userID: this.props.userID
   };
   render() {
     console.log("Navbar");
@@ -19,14 +15,14 @@ class NavbarPage extends Component {
           <text> </text>
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
-            href={`/myprofile/${userID}`}
+            href={`/myprofile`}
             //href="/myprofile//${userID}"
           >
             My profile
           </Nav.Link>
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
-            href={`/home/${userID}`}
+            href={`/home`}
           >
             Home
           </Nav.Link>

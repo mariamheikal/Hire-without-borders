@@ -17,58 +17,62 @@ router.post("/createTask", async (req, res) => {
       console.log("ERROR: Could not connect to the protected route");
       res.sendStatus(403);
     } else {
-  //return
-  const ownerID = authorizedData.id;
-  console.log(ownerID);
-  const isClosed = false;
-  const { title, description, field, requiredSkills } = req.body;
-  const isValidated = validator.createTaskValidation(req.body);
+      //return
+      const ownerID = authorizedData.id;
+      console.log(ownerID);
+      const isClosed = false;
+      const { title, description, field, requiredSkills } = req.body;
+      const isValidated = validator.createTaskValidation(req.body);
 
-  if (isValidated.error)
-    return res
-      .status(400)
+      if (isValidated.error)
+        return res
+          .status(400)
 
-      .send({ error: isValidated.error.details[0].message });
+          .send({ error: isValidated.error.details[0].message });
 
-  const applicants = [];
+      const applicants = [];
 
-  // res.json("test1");
-  const user = await User.findOne({ _id: ObjectId(ownerID) });
-  if (user === null) return res.json("User id is not correct");
+      // res.json("test1");
+      const user = await User.findOne({ _id: ObjectId(ownerID) });
+      if (user === null) return res.json("User id is not correct");
 
-  const newtask = new Task({
-    title,
-    description,
-    ownerID,
-    applicants,
-    field,
-    requiredSkills,
-    isClosed
+      const newtask = new Task({
+        title,
+        description,
+        ownerID,
+        applicants,
+        field,
+        requiredSkills,
+        isClosed
+      });
+      var today = new Date();
+      var date =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
+      const uploadedTask = {
+        id: newtask._id,
+        name: newtask.title,
+        date: date
+      };
+      user.uploadedTasks.push(uploadedTask);
+
+      User.updateOne(
+        { _id: ObjectId(ownerID) },
+        { $set: { uploadedTasks: user.uploadedTasks } },
+        function(err, model) {}
+      );
+      newtask
+
+        .save()
+
+        .then(user => res.json({ data: newtask }))
+
+        .catch(err => res.json(err.message));
+    }
   });
-  var today = new Date();
-  var date =
-    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-  const uploadedTask = {
-    id: newtask._id,
-    name: newtask.title,
-    date: date
-  };
-  user.uploadedTasks.push(uploadedTask);
-
-  User.updateOne(
-    { _id: ObjectId(ownerID) },
-    { $set: { uploadedTasks: user.uploadedTasks } },
-    function(err, model) {}
-  );
-  newtask
-
-    .save()
-
-    .then(user => res.json({ data: newtask }))
-
-    .catch(err => res.json(err.message));
-  }
-})
 });
 
 //Create new user account --Tested--
@@ -93,7 +97,7 @@ router.post("/createNewUserAccount", async (req, res) => {
     return res
       .status(400)
       .send({ error: isValidated.error.details[0].message });
-      console.log("User created backend tested 2");
+  console.log("User created backend tested 2");
 
   const user = await User.findOne({ email });
 
@@ -131,7 +135,7 @@ router.post("/createNewUserAccount", async (req, res) => {
 
     .catch(err => res.json(err.message));
 
-    console.log("User created backend tested 5");
+  console.log("User created backend tested 5");
 });
 
 //Apply for a task --Tested--
@@ -254,15 +258,22 @@ router.put("/acceptApplicant/:taskId/:applicantId", async (req, res) => {
 
 //View my Profile
 
-router.get("/viewprofile/:idC", async (req, res) => {
-  try {
-    console.log("view profile");
-    const user = await User.find({ _id: req.params.idC });
-    if (user === undefined) return res.json("user does not exist");
-    res.json({ data: user.pop() });
-  } catch (error) {
-    res.json({ error: error.message });
-  }
+router.get("/viewprofile", async (req, res) => {
+  jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
+    if (err) {
+      res.json({ tasks: "you are not authorized to view this page" });
+      console.log(err);
+    } else {
+      try {
+        console.log("view profile");
+        const user = await User.find({ _id: authorizedData.id });
+        if (user === undefined) return res.json("user does not exist");
+        res.json({ data: user.pop() });
+      } catch (error) {
+        res.json({ error: error.message });
+      }
+    }
+  });
 });
 
 router.get("/getUserInfo/:idC", async (req, res) => {
@@ -272,13 +283,11 @@ router.get("/getUserInfo/:idC", async (req, res) => {
     if (user === undefined) return res.json("user does not exist");
     console.log(user);
     console.log(user.pop);
-    res.json( user.pop() );
+    res.json(user.pop());
   } catch (error) {
     res.json({ error: error.message });
   }
 });
-
-
 
 //edit my Profile
 router.put("/updateprofile/:idC", async (req, res) => {
@@ -465,15 +474,14 @@ router.post("/login", async (req, res) => {
         id: user._id,
         name: user.memberFullName,
         email: user.email,
-        field:user.field,
-        major:user.major,
-        qualification:user.qualification,
-        dateOfBirth:user.dateOfBirth,
-        university:user.university,
-        phoneNumber:user.memberPhoneNumber,
-        experienceLevel:user.experienceLevel,
-        yearOfGraduation:user.yearOfGraduation
-
+        field: user.field,
+        major: user.major,
+        qualification: user.qualification,
+        dateOfBirth: user.dateOfBirth,
+        university: user.university,
+        phoneNumber: user.memberPhoneNumber,
+        experienceLevel: user.experienceLevel,
+        yearOfGraduation: user.yearOfGraduation
       };
       const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
       console.log(token);
@@ -534,7 +542,5 @@ router.get("/getname", async (req, res) => {
     res.json(authorizedData.name);
   });
 });
-
-
 
 module.exports = router;
