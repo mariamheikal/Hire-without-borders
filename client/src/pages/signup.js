@@ -39,6 +39,12 @@ class signup extends Component {
     });
   }
 
+  updateYearOfGraduation(evt) {
+    this.setState({
+      yearOfGraduation: evt.target.value
+    });
+  }
+
   updateSkill1(evt) {
     this.setState({
       skill1: evt.target.value
@@ -105,6 +111,8 @@ class signup extends Component {
     });
   }
 
+
+
   handleClick() {
     this.setState({ isLoading: true }, () => {
       simulateNetworkRequest().then(() => {
@@ -126,7 +134,8 @@ class signup extends Component {
       qualification: this.state.qualification.map(getValue),
       university: this.state.university,
       major: this.state.major,
-      yearOfGraduation: this.state.yearOfGraduation
+      yearOfGraduation: this.state.yearOfGraduation,
+      field: this.state.field
     };
     const isValidated = validator.createUserValidation(info);
     if (isValidated.error) alert(isValidated.error.details[0].message);
@@ -136,14 +145,14 @@ class signup extends Component {
         .then(function(response) {
           console.log("user create is successful");
           alert(
-            "Congratulations! Your account has been created successfully. Start to hire or tune up to get hired!."
+            "Congratulations! Your account has been created successfully."
           );
           event.preventDefault();
           window.location = "/";
         })
         .catch(function(error) {
           console.log(error);
-          alert("Use another email, this email is taken");
+          alert(error.message);
         });
   }
   }
@@ -200,7 +209,7 @@ class signup extends Component {
     `}
         </style>
         <br />
-        <h1 style={{ "font-family":"Century Gothic","font-weight": "bold"}}>Create an account</h1>
+        <h2 style={{ "font-family":"Century Gothic","font-weight": "bold"}}>Create an account</h2>
         <br />
         
         <h3 style={{"font-family":"Century Gothic"}}> Fill in your details </h3>
@@ -280,16 +289,23 @@ class signup extends Component {
             />
           </Form.Group>
 
+          <Form.Group controlId="formGridGraduationYear">
+            <Form.Label style={{"font-family":"Century Gothic"}}>Graduation Year  </Form.Label>
+            <Form.Control
+               typr="Number"
+              onChange={evt => this.updateYearOfGraduation(evt)}
+            />
+          </Form.Group>
 
           <Form.Row>
 
             <Form.Group as={Col} controlId="formGridSkill">
-              <Form.Label style={{"font-family":"Century Gothic"}}>Skills</Form.Label>
+              <Form.Label style={{"font-family":"Century Gothic"}}>Qualifications</Form.Label>
               {this.state.qualification.map((skill, idx) => (
                 <div className="skill">
                   <input
                     type="text"
-                    placeholder={`Skill ${idx + 1} `}
+                    placeholder={`Qualification ${idx + 1} `}
                     value={skill.name}
                     onChange={this.handleSkillNameChange(idx)}
                   />

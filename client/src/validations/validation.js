@@ -31,7 +31,7 @@ module.exports = {
       university: Joi.string(),
       major: Joi.string(),
       yearOfGraduation: Joi.string(),
-      skills: Joi.array().required(),
+      skills: Joi.array(),
       field: Joi.string().required()
     };
 

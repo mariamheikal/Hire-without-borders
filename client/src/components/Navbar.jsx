@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import {
   Nav,
-  Navbar,
-  Form,
-  FormControl,
-  Button,
-  NavItem
+  Navbar
 } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
 import ContactUs from "../components/ContactUs";
 class NavbarPage extends Component {
   state = {
@@ -18,19 +13,45 @@ class NavbarPage extends Component {
       <Navbar style={{ backgroundColor: "//#endregion" }}>
         <Nav className="mr-auto">
           <text> </text>
-          <Nav.Link style={{"color":"#FAFAFA","font-family":"Century Gothic"}} href="/">Home</Nav.Link>
-          <NavItem>
-            <Nav.Link style={{"color":"#FAFAFA","font-family":"Century Gothic"}} href="/login" >My uploaded tasks</Nav.Link>
-          </NavItem>
-        
-        
+          <Nav.Link
+            style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
+            href="/profile"
+          >
+            my profile
+          </Nav.Link>
+          <Nav.Link
+            style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
+            href="/home"
+          >
+            Home
+          </Nav.Link>
+          <Nav.Link
+            style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
+            href="/createtask"
+          >
+            Create a task
+          </Nav.Link>
+          <Nav.Link
+            style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
+            href="/uploadedtasks"
+          >
+            My uploaded tasks
+          </Nav.Link>
+
+          <Nav.Link
+            style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
+            href="/appliedtasks"
+          >
+            Applied tasks
+          </Nav.Link>
         </Nav>
 
-        <Form inline>
-          <FormControl  type="text" placeholder="Search" className="mr-sm-2" />
-          <Button style={{"color":"#FAFAFA","font-family":"Century Gothic"}} variant="outline-info">Search</Button>
-        </Form>
-        <Nav.Link style={{"color":"#FAFAFA","font-family":"Century Gothic"}} href="#home">SignOut</Nav.Link>
+        <Nav.Link
+          style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
+          href="#home"
+        >
+          SignOut
+        </Nav.Link>
       </Navbar>
     );
   }
