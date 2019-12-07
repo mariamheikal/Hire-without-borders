@@ -18,6 +18,7 @@ class createtask extends Component {
     this.state = {
       isLoading:false,
       inputList: [],
+      userID: window.location.pathname.split("/").pop(),
       title:"",
       description: "",
       field:"",
@@ -84,6 +85,7 @@ class createtask extends Component {
     const isValidated = validator.createTaskValidation(info);
     if (isValidated.error) alert(isValidated.error.details[0].message);
     else{
+      const userID = this.state.userID;
       await axios
         .post("http://localhost:3333/api/user/createTask", info)
         .then(function(response) {
@@ -92,7 +94,7 @@ class createtask extends Component {
             "Congratulations! Your task has been created successfully."
           );
           event.preventDefault();
-          window.location = "/createtask";
+          window.location = `/createtask/${userID}`;
         })
         .catch(function(error) {
           console.log(error);
@@ -107,34 +109,36 @@ class createtask extends Component {
 
   handleAddSkill = () => {
     this.setState({
-      qualification: this.state.qualification.concat([{ name: "" }])
+      requiredSkills: this.state.requiredSkills.concat([{ name: "" }])
     });
   };
 
   handleSkillNameChange = idx => evt => {
-    const newSkill = this.state.qualification.map((skill, sidx) => {
+    const newSkill = this.state.requiredSkills.map((skill, sidx) => {
       if (idx !== sidx) return skill;
       return { ...skill, name: evt.target.value };
     });
 
-    this.setState({ qualification: newSkill });
+    this.setState({ requiredSkills: newSkill });
   };
 
 
 
   handleRemoveSkill = idx => () => {
     this.setState({
-      qualification: this.state.qualification.filter((s, sidx) => idx !== sidx)
+      requiredSkills: this.state.requiredSkills.filter((s, sidx) => idx !== sidx)
     });
   };
 
 
   
   render() {
+              const userID = this.state.userID;
+console.log(userID);
+console.log("CREATE TASK");
     return (
-      
       <div>
-            <NavbarPage />
+      <NavbarPage userID={this.props.match.params.userID}/>
         <style type="text/css">
           {`
     .btn-flat {

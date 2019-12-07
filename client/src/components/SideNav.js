@@ -1,7 +1,7 @@
 // import React from 'react';
 import { bubble as Menu } from "react-burger-menu";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import BellIcon from "react-bell-icon";
+//import BellIcon from "react-bell-icon";
 import { Icon, Modal } from "semantic-ui-react";
 import About from "../components/About";
 import ContactUs from "../components/ContactUs";
@@ -37,7 +37,6 @@ class SideNav extends Component {
   };
   render() {
     // const type = this.state.data.type;
-    const coID = this.state.id;
 
     // console.log(coID + " " + this.state.type);
 
