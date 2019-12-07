@@ -7,7 +7,7 @@ import { Route, NavLink, BrowserRouter } from "react-router-dom";
 import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 
-class viewtask extends Component {
+class viewmytask extends Component {
 constructor(props) {
   super(props);
   this.state = {
@@ -94,6 +94,13 @@ render() {
                   <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Experience field: "+this.state.field}</p>
                   <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Required Skills: "+this.state.requiredSkills}</p>
                   <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Availability Status: "+Availability}</p>
+    <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    onClick={this.closetask.bind(taskID)}
+                  >
+                    Close task
+                  </button>
                   
                       </div>
                   </div>
@@ -102,4 +109,4 @@ render() {
 }
 }
 
-export default viewtask;
+export default viewmytask;
