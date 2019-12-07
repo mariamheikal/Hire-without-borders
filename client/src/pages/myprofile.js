@@ -1,12 +1,12 @@
 import NavbarPage from "../components/Navbar";
-import SideNav from "../components/SideNav";
+//import SideNav from "../components/SideNav";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
+//import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 
-import { Route, NavLink, BrowserRouter } from "react-router-dom";
-import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
+//import { Route, NavLink, BrowserRouter } from "react-router-dom";
+//import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 class myprofile extends Component {
   constructor(props) {
@@ -49,6 +49,7 @@ class myprofile extends Component {
     });
   }
   render() {
+    console.log("MY PROFILE");
     const { info } = this.state;
     const userID = this.state.userID;
     console.log(info);
@@ -74,54 +75,60 @@ class myprofile extends Component {
                 >
                   {this.state.name}
                 </h5>
-                <p
+                <h5
                   style={{ "font-family": "Century Gothic" }}
                   class="card-text"
                 >
                   {"Majored in: " + this.state.major}
-                </p>
-                <p
+                </h5>
+                <h5
                   style={{ "font-family": "Century Gothic" }}
                   class="card-text"
                 >
                   {"Email: " + this.state.email}
-                </p>
-                <p
+                </h5>
+                <h5
                   style={{ "font-family": "Century Gothic" }}
                   class="card-text"
                 >
                   {"Mobile Number: " + this.state.phoneNumber}
-                </p>
-                <p
+                </h5>
+                <h5
                   style={{ "font-family": "Century Gothic" }}
                   class="card-text"
                 >
                   {"Date of birth: " + this.state.dateOfBirth}
-                </p>
-                <p
+                </h5>
+                <h5
                   style={{ "font-family": "Century Gothic" }}
                   class="card-text"
                 >
                   {"Field of experience: " + this.state.field}
-                </p>
-                <p
+                </h5>
+                <h5
                   style={{ "font-family": "Century Gothic" }}
                   class="card-text"
                 >
                   {"Experience level: " + this.state.experienceLevel}
-                </p>
-                <p
+                </h5>
+                <h5
                   style={{ "font-family": "Century Gothic" }}
                   class="card-text"
                 >
                   {"University: " + this.state.university}
-                </p>
-                <p
+                </h5>
+                <h5
                   style={{ "font-family": "Century Gothic" }}
                   class="card-text"
                 >
                   {"Graduation year: " + this.state.yearOfGraduation}
-                </p>
+                </h5>
+                <h5
+                  style={{ "font-family": "Century Gothic" }}
+                  class="card-text"
+                >
+                  {"Qualifications: " + this.state.qualification}
+                </h5>
               </div>
             </div>
           </div>

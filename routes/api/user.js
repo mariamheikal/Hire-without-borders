@@ -147,8 +147,10 @@ router.put("/applyForTask/:taskId", async (req, res) => {
       res.sendStatus(403);
     } else {
       try {
+        console.log("APPLY");
         const taskID = req.params.taskId;
-        const applID = req.params.applicantId;
+        const applID = authorizedData.id;
+        console.log(applID);
         const task = await Task.findById(taskID);
         const user = await User.findById(authorizedData.id);
         if (task === null) return res.json("This task does not exist");
@@ -185,6 +187,7 @@ router.put("/applyForTask/:taskId", async (req, res) => {
             { $set: { appliedInTasks: user.appliedInTasks } },
             function(err, model) {}
           );
+          console.log("APPLIED IN TASK");
           return res.json({ data: "You applied in task successfully", user });
         } else
           return res.json(
@@ -355,13 +358,15 @@ router.get("/appliedTasks", async (req, res) => {
 });
 
 //view all open tasks to apply for
-router.get("/viewTask", async (req, res) => {
+router.get("/viewTasks", async (req, res) => {
   try {
     const tasks = await Tasks.find({ isClosed: false });
     if (tasks.length == 0 || tasks == null) return res.json("no tasks found");
+    console.log("VIEW TASKS");
+    console.log(tasks);
     res.json(tasks);
   } catch (error) {
-    res.json({ error: error.message });
+    res.json({ tasks: error.message });
   }
 });
 //filter task by category

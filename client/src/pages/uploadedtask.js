@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
-
 import { Route, NavLink, BrowserRouter } from "react-router-dom";
 import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
@@ -11,6 +10,7 @@ class uploadedtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      info: {},
       tasks: [],
       coID: window.location.pathname.split("/").pop(),
       message: ""
@@ -20,13 +20,29 @@ class uploadedtasks extends Component {
 
   componentDidMount() {
     this.gettasks();
+    // this.getUser();
   }
+  // async getUser() {
+  //   const userID = this.state.userID;
+  //   console.log(userID);
+  //   await fetch(`http://localhost:3333/api/user/viewprofile/${userID}`)
+  //     .then(res => res.json())
+  //     .then(info => this.setState({ info }));
+  //     console.log(this.state.info);
+  //     this.setState({
+  //       name: this.state.info.data.memberFullName,
+  //       email: this.state.info.data.email
+  //     });
+  // }
   gettasks = async () => {
+    const userID = this.state.userID;
+
     // const coID = this.props.coID;
     // console.log("test " + coID);
     await fetch(`http://localhost:3333/api/user/viewUploadedTasks`)
       .then(res => res.json())
       .then(tasks => this.setState({ tasks }));
+    console.log(this.state.tasks);
   };
   closetask = (e, taskid) => {
     // const coID = this.props.coID;
@@ -49,12 +65,14 @@ class uploadedtasks extends Component {
   };
 
   render() {
+    const userID = this.state.userID;
+    console.log(userID);
+    console.log("UPLOADED TASKS");
     const { tasks } = this.state;
-    console.log(this.state.tasks);
+    console.log(tasks);
     return (
       <div>
-        <NavbarPage />
-
+        <NavbarPage userID={this.props.match.params.userID} />
         {tasks.length ? (
           <div>
             {tasks.map(el => {
@@ -85,12 +103,12 @@ class uploadedtasks extends Component {
                         window.location.reload();
                       }}
                     >
-                      delete task
+                      Delete task
                     </button>
                   </div>
-                  <Link to={`/viewTask/${el.id}`}>
+                  <Link to={`/viewtask/${userID}/${el.id}`}>
                     <button type="button" class="btn btn-outline-dark">
-                      View this task
+                      View task details
                     </button>
                   </Link>
                 </div>
