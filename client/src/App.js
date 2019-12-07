@@ -6,6 +6,7 @@ import home from "./pages/home";
 import signup from "./pages/signup";
 import uploadedtasks from "./pages/uploadedtask";
 import createtask from "./pages/createtask";
+import myprofile from "./pages/myprofile";
 class App extends Component {
   render() {
     return (
@@ -16,6 +17,7 @@ class App extends Component {
           <Route exact path="/signup" component={signup} />
           <Route exact path="/uploadedtasks" component={uploadedtasks} />
           <Route exact path="/createtask" component={createtask} />
+          <Route exact path="/myprofile/:userID" component={myprofile} />
         </div>
       </Router>
     );

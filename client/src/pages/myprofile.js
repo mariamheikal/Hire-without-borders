@@ -1,3 +1,5 @@
+
+
 import NavbarPage from "../components/Navbar";
 import SideNav from "../components/SideNav";
 import React, { Component } from "react";
@@ -23,7 +25,7 @@ class myprofile extends Component {
       dateOfBirth: "",
       university: "",
       phoneNumber: "",
-      experienceLevel: "",
+      experienceLevel: 0,
       yearOfGraduation: ""
     }
   }
@@ -41,7 +43,7 @@ class myprofile extends Component {
         field: this.state.info.data.field,
         major: this.state.info.data.major,
         qualification: this.state.info.data.qualification,
-        dateOfBirth: this.state.info.datadateOfBirth,
+        dateOfBirth: this.state.info.data.dateOfBirth,
         university: this.state.info.data.university,
         phoneNumber: this.state.info.data.phoneNumber,
         experienceLevel: this.state.info.data.experienceLevel,
@@ -57,23 +59,24 @@ class myprofile extends Component {
        
     return (
       <div>
-              <NavbarPage/>
+              <NavbarPage userID={this.props.match.params.userID}/>
 
              <div className="App">
-         <h1>Your Info</h1>            
-              
-               {'Name:'}
-               <span>{this.state.name}</span> <br/>
-               {'Email: '}
-               <span>{this.state.email}</span><br/>
-              {'Major:'}
-               <span>{this.state.major}</span> <br/>
-               {'Field: '}
-               <span>{this.state.field}</span><br/>
-            {'Field: '}
-               <span>{this.state.field}</span><br/>
-                      {'Field: '}
-               <span>{this.state.field}</span><br/>
+              <div  class="card">
+                <div class="b">
+                 <h3  style={{ "font-family": "Century Gothic" }} class="card-header">Your personal information</h3>
+                 <div class="card-body">
+                    <h5  style={{ "font-family": "Century Gothic" }} class="card-text" >{this.state.name}</h5>
+                    <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Majored in: "+this.state.major}</p>
+                    <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Email: "+this.state.email}</p>
+                    <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Date of birth: "+this.state.dateOfBirth}</p>
+                    <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Field of experience: "+this.state.field}</p>
+                    <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Experience level: "+this.state.experienceLevel}</p>
+                    <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"University: "+this.state.university}</p>
+                    <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Graduation year: "+this.state.yearOfGraduation}</p>
+                       </div>
+                   </div>
+                 </div>
            </div>
       </div>
     );
