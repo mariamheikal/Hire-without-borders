@@ -61,11 +61,10 @@ class uploadedtasks extends Component {
               return (
                 <div key={el.id} class="card">
                   <h5 class="card-header" class="btn btn-outline-dark">
-                    {el.title}
+                    {el.name}
                   </h5>
                   <div class="card-body" class="btn btn-outline-dark">
-                    <p class="card-text">{"description: " + el.description}</p>
-                    <p class="card-text">{"status: " + el.isClosed}</p>
+                    <p class="card-text">{"date: " + el.date}</p>
 
                     {/* <button
                       type="button"
@@ -100,7 +99,7 @@ class uploadedtasks extends Component {
           </div>
         ) : (
           <div>
-            <h2>No task is found.</h2>
+            <h2>loading or No task is found.</h2>
           </div>
         )}
       </div>

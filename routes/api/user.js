@@ -343,10 +343,10 @@ router.get("/appliedTasks", async (req, res) => {
       console.log(err);
     } else {
       try {
-        const tasks = await User.find(authorizedData.id);
-        if (tasks === undefined || tasks.length == 0)
-          return res.json("No applied tasks");
-        res.json({ data: tasks.pop().appliedInTasks });
+        const tasks = await User.find({ _id: authorizedData.id });
+
+        res.json(tasks.pop().appliedInTasks);
+        console.log(tasks.pop().appliedInTasks);
       } catch (error) {
         res.json({ error: error.message });
       }
@@ -402,9 +402,6 @@ router.get("/viewUploadedTasks", async (req, res) => {
     } else {
       try {
         const user = await User.findById(authorizedData.id);
-        console.log(user.uploadedTasks);
-        if (user === null) return res.json("User not found");
-
         return res.json(user.uploadedTasks);
       } catch (error) {
         res.json({ error: error.message });
@@ -455,7 +452,7 @@ router.get("/viewApplicants/:taskId", async (req, res) => {
   try {
     const task = await Task.findById(req.params.taskId);
     if (task === null) return res.json("task does not exist");
-    res.json({ data: task.applicants });
+    res.json(task.applicants);
   } catch (error) {
     res.json({ error: error.message });
   }
