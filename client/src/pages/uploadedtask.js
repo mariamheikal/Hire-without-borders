@@ -11,7 +11,6 @@ class uploadedtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show:true,
       info: {},
       tasks: [],
       userID: window.location.pathname.split("/").pop(),

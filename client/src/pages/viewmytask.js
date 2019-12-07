@@ -1,10 +1,5 @@
 import NavbarPage from "../components/Navbar";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
-import { Route, NavLink, BrowserRouter } from "react-router-dom";
-import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 
 class viewmytask extends Component {
@@ -20,6 +15,7 @@ constructor(props) {
     field:"",
     isClosed:false,
     requiredSkills:[],
+    applicants:[],
     message: ""
   };
 }
@@ -43,7 +39,10 @@ gettask = async () => {
       description: this.state.task.data.description,
       field: this.state.task.data.field,
         isClosed: this.state.task.data.isClosed,
-        requiredSkills: this.state.task.data.requiredSkills
+        requiredSkills: this.state.task.data.requiredSkills,
+        applicants:this.state.task.data.applicants
+
+
     });
 };
 
