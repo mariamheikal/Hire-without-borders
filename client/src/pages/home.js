@@ -37,15 +37,7 @@ class home extends Component {
       .then(info => this.setState({ info }));
       this.setState({
         name: this.state.info.data.memberFullName,
-        email: this.state.info.data.email,
-        field: this.state.info.data.field,
-        major: this.state.info.data.major,
-        qualification: this.state.info.data.qualification,
-        dateOfBirth: this.state.info.datadateOfBirth,
-        university: this.state.info.data.university,
-        phoneNumber: this.state.info.data.phoneNumber,
-        experienceLevel: this.state.info.data.experienceLevel,
-        yearOfGraduation: this.state.info.data.yearOfGraduation
+        email: this.state.info.data.email
       });
   }
   render() {
@@ -60,12 +52,7 @@ class home extends Component {
               <NavbarPage userID={this.props.match.params.userID}/>
 
              <div className="App">
-         <h1>Your Info</h1>            
-              
-               {'name:'}
-               <span>{this.state.name}</span> <br/>
-               {'email: '}
-               <span>{this.state.email}</span><br/>
+         <h1>Home Page</h1>            
               
            </div>
       </div>

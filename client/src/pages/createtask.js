@@ -18,6 +18,7 @@ class createtask extends Component {
     this.state = {
       isLoading:false,
       inputList: [],
+      userID: window.location.pathname.split("/").pop(),
       title:"",
       description: "",
       field:"",
@@ -107,34 +108,35 @@ class createtask extends Component {
 
   handleAddSkill = () => {
     this.setState({
-      qualification: this.state.qualification.concat([{ name: "" }])
+      requiredSkills: this.state.requiredSkills.concat([{ name: "" }])
     });
   };
 
   handleSkillNameChange = idx => evt => {
-    const newSkill = this.state.qualification.map((skill, sidx) => {
+    const newSkill = this.state.requiredSkills.map((skill, sidx) => {
       if (idx !== sidx) return skill;
       return { ...skill, name: evt.target.value };
     });
 
-    this.setState({ qualification: newSkill });
+    this.setState({ requiredSkills: newSkill });
   };
 
 
 
   handleRemoveSkill = idx => () => {
     this.setState({
-      qualification: this.state.qualification.filter((s, sidx) => idx !== sidx)
+      requiredSkills: this.state.requiredSkills.filter((s, sidx) => idx !== sidx)
     });
   };
 
 
   
   render() {
+              const userID = this.state.userID;
+
     return (
-      
       <div>
-            <NavbarPage />
+      <NavbarPage userID={this.props.match.params.userID}/>
         <style type="text/css">
           {`
     .btn-flat {

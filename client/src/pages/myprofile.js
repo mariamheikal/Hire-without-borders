@@ -75,6 +75,8 @@ class myprofile extends Component {
                     <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Experience level: "+this.state.experienceLevel}</p>
                     <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"University: "+this.state.university}</p>
                     <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Graduation year: "+this.state.yearOfGraduation}</p>
+                     <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Qualifications: "+this.state.qualification}</p>
+                    
                        </div>
                    </div>
                  </div>
