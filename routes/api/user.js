@@ -51,7 +51,6 @@ router.post("/createTask", async (req, res) => {
   const uploadedTask = {
     id: newtask._id,
     name: newtask.title,
-    description: 
     date: date
   };
   user.uploadedTasks.push(uploadedTask);
@@ -347,7 +346,7 @@ router.get("/appliedTasks", async (req, res) => {
 });
 
 //view all open tasks to apply for
-router.get("/viewTask", async (req, res) => {
+router.get("/viewTasks", async (req, res) => {
   try {
     const tasks = await Tasks.find({ isClosed: false });
     if (tasks.length == 0 || tasks == null) return res.json("no tasks found");

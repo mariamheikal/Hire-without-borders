@@ -21,18 +21,20 @@ class uploadedtasks extends Component {
 
   componentDidMount() {
     this.gettasks();
-    this.getUser();
+   // this.getUser();
   }
-  async getUser() {
-    const userID = this.state.userID;
-    await fetch(`http://localhost:3333/api/user/viewprofile/${userID}`)
-      .then(res => res.json())
-      .then(info => this.setState({ info }));
-      this.setState({
-        name: this.state.info.data.memberFullName,
-        email: this.state.info.data.email
-      });
-  }
+  // async getUser() {
+  //   const userID = this.state.userID;
+  //   console.log(userID);
+  //   await fetch(`http://localhost:3333/api/user/viewprofile/${userID}`)
+  //     .then(res => res.json())
+  //     .then(info => this.setState({ info }));
+  //     console.log(this.state.info);
+  //     this.setState({
+  //       name: this.state.info.data.memberFullName,
+  //       email: this.state.info.data.email
+  //     });
+  // }
   gettasks = async () => {
         const userID = this.state.userID;
 
@@ -53,7 +55,7 @@ class uploadedtasks extends Component {
         "Content-Type": "application/json"
       }
     });
-    
+
   }
   deletetask(taskid) {
         const userID = this.state.userID;
