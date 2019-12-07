@@ -5,3 +5,28 @@ h1 {
 h4 {
   color:  grey;
 }
+h5 {
+  color: grey;
+}
+h3 {
+  color:black;
+}
+p {
+  color:  grey;
+}
+
+div.a {
+  text-align: center;
+}
+
+div.b {
+  text-align: left;
+}
+
+div.c {
+  text-align: right;
+} 
+
+div.d {
+  text-align: justify;
+} 

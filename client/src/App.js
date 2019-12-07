@@ -5,18 +5,19 @@ import Login from "./pages/login";
 import home from "./pages/home";
 import signup from "./pages/signup";
 import uploadedtasks from "./pages/uploadedtask";
-import appliedtasks from "./pages/appliedtask";
-
+import createtask from "./pages/createtask";
+import myprofile from "./pages/myprofile";
 class App extends Component {
   render() {
     return (
       <Router>
         <div className="App">
           <Route exact path="/" component={Login} />
-          <Route exact path="/home" component={home} />
+          <Route exact path="/home/:userID" component={home} />
           <Route exact path="/signup" component={signup} />
           <Route exact path="/uploadedtasks" component={uploadedtasks} />
-          <Route exact path="/appliedtasks" component={appliedtasks} />
+          <Route exact path="/createtask" component={createtask} />
+          <Route exact path="/myprofile/:userID" component={myprofile} />
         </div>
       </Router>
     );

@@ -6,20 +6,23 @@ import validator from "../validations/validation";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Redirect } from "react-router";
 import { BrowserHistory } from "react-router-dom";
-import SideNav from "../components/SideNav";
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.handleSignIn = this.handleSignIn.bind(this);
     this.state = {
-      isLoading: false,
+      id: null,
+      name: "",
       email: "",
       password: "",
-      coID: window.location.pathname.split("/").pop(),
-      name: "",
+      field: "",
       major: "",
-
+      qualification: "",
+      dateOfBirth: "",
+      university: "",
+      phoneNumber: "",
+      experienceLevel: "",
+      yearOfGraduation: "",
       login: false
     };
     this.handleSignIn = this.handleSignIn.bind(this);
@@ -32,20 +35,36 @@ class Login extends Component {
       password: this.state.password
     };
     const isValidated = validator.loginValidation(info);
+  
     if (isValidated.error) alert(isValidated.error.details[0].message);
     else
       axios
         .post("http://localhost:3333/api/user/login", info)
         .then(response => {
+          console.log(response);
           axios
-            .get("/api/user/auth", {
+            .get("http://localhost:3333/api/user/auth", {
               headers: { Authorization: response.data }
             })
+    
             .then(response => {
+              console.log(response.data.authorizedData.id);
+              console.log(response.data.authorizedData.email);
+              console.log(response.data.authorizedData.experienceLevel);
+
               this.setState({
-                id: response.data.authorizedData.id,
-                name: response.data.authorizedData.name,
+                userID: response.data.authorizedData.id,
                 email: response.data.authorizedData.email,
+                password: response.data.authorizedData.password,
+                name: response.data.authorizedData.name,
+                field: response.data.authorizedData.field,
+                major: response.data.authorizedData.major,
+                qualification: response.data.authorizedData.qualification,
+                dateOfBirth: response.data.authorizedData.dateOfBirth,
+                university: response.data.authorizedData.university,
+                phoneNumber: response.data.authorizedData.phoneNumber,
+                experienceLevel: response.data.authorizedData.experienceLevel,
+                yearOfGraduation: response.data.authorizedData.yearOfGraduation,
                 login: true
               });
             })
@@ -83,6 +102,7 @@ class Login extends Component {
   }
 
   render() {
+    const userID = this.state.userID;
     if (this.state.login === false) {
       const divStyle = {
         width: "100%",
@@ -174,7 +194,7 @@ class Login extends Component {
         </div>
       );
     } else {
-      this.props.history.push(`/home`);
+      this.props.history.push(`/home/${userID}`);
     }
 
     return <div />;
