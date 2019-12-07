@@ -145,8 +145,9 @@ class signup extends Component {
         .then(function(response) {
           console.log("user create is successful");
           alert(
-            "Congratulations! Your account has been created successfully."
+            "Congratulations! Your account has been created successfully. You can now login"
           );
+          console.log(info);
           event.preventDefault();
           window.location = "/";
         })

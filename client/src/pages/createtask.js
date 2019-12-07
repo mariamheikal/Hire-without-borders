@@ -92,7 +92,7 @@ class createtask extends Component {
             "Congratulations! Your task has been created successfully."
           );
           event.preventDefault();
-          window.location = "/";
+          window.location = "/createtask";
         })
         .catch(function(error) {
           console.log(error);
