@@ -75,16 +75,23 @@
 import NavbarPage from "../components/Navbar";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+<<<<<<< Updated upstream
 import axios from "axios";
 import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import { Route, NavLink, BrowserRouter } from "react-router-dom";
 import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
+=======
+>>>>>>> Stashed changes
 
 
 class home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+<<<<<<< Updated upstream
+=======
+      show:false,
+>>>>>>> Stashed changes
       info: {},
       tasks: [],
       userID: window.location.pathname.split("/").pop(),
@@ -140,15 +147,26 @@ class home extends Component {
               console.log(el.id)
               return (
                 <div key={el._id} class="card">
+<<<<<<< Updated upstream
                   <h5 class="card-header" class="btn btn-outline-dark">
                     {el.title}
                   </h5>
                   <div class="card-body" class="btn btn-outline-dark">
+=======
+                  <h4 style={{ "font-family": "Century Gothic" }}  class="card-header" >
+                    {el.title}
+                  </h4>
+                  <div class="card-body" >
+>>>>>>> Stashed changes
                       <h5 style={{ "font-family": "Century Gothic" }} class="card-text">{"Description: " + el.description}</h5>
                      <h5 style={{ "font-family": "Century Gothic" }} class="card-text">  {"Required Skills: " + el.requiredSkills}</h5>
                     <button
                       type="button"
                       class="btn btn-outline-dark"
+<<<<<<< Updated upstream
+=======
+                      style={{ "font-family": "Century Gothic" }}
+>>>>>>> Stashed changes
                       onClick={this.applyForTask.bind(el.id,userID)}
                     >
                      Apply
@@ -157,7 +175,11 @@ class home extends Component {
   
                   </div>
                   <Link to={`/viewtask/${userID}/${el._id}`}>
+<<<<<<< Updated upstream
                     <button type="button" class="btn btn-outline-dark">
+=======
+                    <button type="button" class="btn btn-outline-dark" style={{ "font-family": "Century Gothic" }}>
+>>>>>>> Stashed changes
                       View task details
                     </button>
                   </Link>

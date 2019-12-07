@@ -11,6 +11,7 @@ class uploadedtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      show:true,
       info: {},
       tasks: [],
       userID: window.location.pathname.split("/").pop(),
@@ -107,7 +108,7 @@ class uploadedtasks extends Component {
                       Delete task
                     </button>
                   </div>
-                  <Link to={`/viewtask/${userID}/${el.id}`}>
+                  <Link to={`/viewmytask/${userID}/${el.id}`}>
                     <button type="button" class="btn btn-outline-dark">
                       View task details
                     </button>
