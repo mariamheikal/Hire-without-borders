@@ -40,18 +40,18 @@ class uploadedtasks extends Component {
               return (
                 <div key={el.id} class="card">
                   <h5 class="card-header" class="btn btn-outline-dark">
-                    {el.title}
+                    {el.name}
                   </h5>
                   <div class="card-body" class="btn btn-outline-dark">
-                    <p class="card-text">{"description: " + el.description}</p>
+                    <p class="card-text">{"date: " + el.date}</p>
 
-                    <button
+                    {/* <button
                       type="button"
                       class="btn btn-outline-dark"
                       onClick={this.closetask(el.id)}
                     >
                       change to close
-                    </button>
+                    </button> */}
                   </div>
                   <Link to={`/viewTask/${el.id}`}>
                     <button type="button" class="btn btn-outline-dark">
@@ -64,7 +64,7 @@ class uploadedtasks extends Component {
           </div>
         ) : (
           <div>
-            <h2>No task is found.</h2>
+            <h2>Loading or No task is found.</h2>
           </div>
         )}
       </div>

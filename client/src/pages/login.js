@@ -35,7 +35,7 @@ class Login extends Component {
       password: this.state.password
     };
     const isValidated = validator.loginValidation(info);
-  
+
     if (isValidated.error) alert(isValidated.error.details[0].message);
     else
       axios
@@ -46,7 +46,7 @@ class Login extends Component {
             .get("http://localhost:3333/api/user/auth", {
               headers: { Authorization: response.data }
             })
-    
+
             .then(response => {
               console.log(response.data.authorizedData.id);
               console.log(response.data.authorizedData.email);
@@ -194,7 +194,7 @@ class Login extends Component {
         </div>
       );
     } else {
-      this.props.history.push(`/home/${userID}`);
+      this.props.history.push(`/home`);
     }
 
     return <div />;
