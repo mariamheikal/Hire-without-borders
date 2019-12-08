@@ -25,7 +25,6 @@ class editprofile extends Component {
     this.state = {
       info: {},
       //   coID: window.location.pathname.split("/").pop(),
-
       flag1: false,
       flag2: false,
       flag3: false,
@@ -68,9 +67,6 @@ class editprofile extends Component {
 
   // Retrieves the list of items from the Express app
   getList = async () => {
-    //console.log(coID)
-    //   const rID = this.props.match.params.rID;
-    // console.log(rID)
     const coID = this.props.coID;
     await fetch(`http://localhost:3333/api/user/viewprofile`)
       .then(res => res.json())

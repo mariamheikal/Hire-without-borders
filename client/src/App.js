@@ -10,12 +10,14 @@ import myprofile from "./pages/myprofile";
 import appliedtasks from "./pages/appliedtask";
 import viewtask from "./pages/viewtask";
 import editprofile from "./pages/editprofile";
+import googlogin from "./pages/googlogin";
 class App extends Component {
   render() {
     return (
       <Router>
         <div className="App">
           <Route exact path="/" component={Login} />
+          <Route exact path="/googlogin" component={googlogin} />
           <Route exact path="/home" component={home} />
           <Route exact path="/signup" component={signup} />
           <Route exact path="/uploadedtasks" component={uploadedtasks} />

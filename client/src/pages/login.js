@@ -111,6 +111,7 @@ class Login extends Component {
 
         backgroundSize: "cover"
       };
+
       return (
         <div>
           <style type="text/css">
@@ -187,7 +188,11 @@ class Login extends Component {
                 variant="google"
                 onClick={this.handleGoogle}
               >
-                Sign in with Google+
+                <Link to={`/googlogin`}>
+                  <button type="button" class="btn btn-outline-dark">
+                    Sign in with Google+
+                  </button>
+                </Link>
               </Button>
             </ButtonToolbar>
           </Jumbotron>
