@@ -1,6 +1,7 @@
 {
   "short_name": "React App",
   "name": "Hire-without-borders",
+  "description":"Get any task done",
   "icons": [
     {
       "src": "favicon.ico",

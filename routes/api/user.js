@@ -160,6 +160,8 @@ router.put("/applyForTask/:taskId", async (req, res) => {
             applicantID: ObjectId(applID),
             status: "Pending",
             name:user.memberFullName,
+            email: user.email,
+            phoneNumber: user.memberPhoneNumber,
             major:user.major,
             field:user.field,
             experienceLevel:user.experienceLevel

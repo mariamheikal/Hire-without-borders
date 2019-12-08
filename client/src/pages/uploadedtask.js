@@ -91,13 +91,13 @@ class uploadedtasks extends Component {
                     <p class="card-text">{"Uploaded at: " + el.date}</p>
                     {/* <p class="card-text">{"description: " + el.description}</p> */}
                     {/* <p class="card-text">{"Availability Status: " + el.isClosed}</p> */}
-                    <button
+                    {/* <button
                       type="button"
                       class="btn btn-outline-dark"
                       onClick={this.closetask.bind(el.id)}
                     >
                       Close task
-                    </button>
+                    </button> */}
 
                     <button
                       type="button"

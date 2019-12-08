@@ -5,6 +5,8 @@ const applicantSchema = new Schema({
   applicantID: { type: mongoose.Schema.Types.ObjectId },
   status: { type: String },
   name: {type:String},
+  email: {type:String},
+  phoneNumber:{type:String},
   major: {type:String},
   field:{type:String},
   experienceLevel:{type:Number}
