@@ -158,7 +158,14 @@ router.put("/applyForTask/:taskId", async (req, res) => {
         if (task.isClosed === false) {
           task.applicants.push({
             applicantID: ObjectId(applID),
-            status: "Pending"
+            status: "Pending",
+            name:user.memberFullName,
+            email: user.email,
+            phoneNumber: user.memberPhoneNumber,
+            major:user.major,
+            field:user.field,
+            experienceLevel:user.experienceLevel
+
           });
 
           Task.updateOne(

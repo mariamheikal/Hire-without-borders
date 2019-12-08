@@ -6,13 +6,14 @@ import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import { Route, NavLink, BrowserRouter } from "react-router-dom";
 import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
+
 class uploadedtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
       info: {},
       tasks: [],
-      coID: window.location.pathname.split("/").pop(),
+      userID: window.location.pathname.split("/").pop(),
       message: ""
     };
   }
@@ -20,7 +21,7 @@ class uploadedtasks extends Component {
 
   componentDidMount() {
     this.gettasks();
-    // this.getUser();
+   // this.getUser();
   }
   // async getUser() {
   //   const userID = this.state.userID;
@@ -35,7 +36,7 @@ class uploadedtasks extends Component {
   //     });
   // }
   gettasks = async () => {
-    const userID = this.state.userID;
+        const userID = this.state.userID;
 
     // const coID = this.props.coID;
     // console.log("test " + coID);
@@ -44,35 +45,40 @@ class uploadedtasks extends Component {
       .then(tasks => this.setState({ tasks }));
     console.log(this.state.tasks);
   };
-  closetask = (e, taskid) => {
+
+  closetask(taskid) {
     // const coID = this.props.coID;
     // console.log("test " + coID);
-    e.preventDefault();
-    fetch(`http://localhost:3333/api/user/closeTask/` + taskid, {
+    fetch(`http://localhost:3333/api/user/closeTask/${taskid}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
       }
     });
-  };
-  deletetask = (e, taskid) => {
-    e.preventDefault();
+
+  }
+  deletetask(taskid) {
+        const userID = this.state.userID;
+
     // const coID = this.props.coID;
     // console.log("test " + coID);
-    fetch(`http://localhost:3333/api/user/deleteTask/` + taskid, {
-      method: "DELETE"
+    fetch(`http://localhost:3333/api/user/deleteTask/${taskid}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
-  };
+  }
 
   render() {
-    const userID = this.state.userID;
+        const userID = this.state.userID;
     console.log(userID);
     console.log("UPLOADED TASKS");
     const { tasks } = this.state;
     console.log(tasks);
     return (
       <div>
-        <NavbarPage userID={this.props.match.params.userID} />
+      <NavbarPage userID={this.props.match.params.userID}/>
         {tasks.length ? (
           <div>
             {tasks.map(el => {
@@ -82,31 +88,26 @@ class uploadedtasks extends Component {
                     {el.name}
                   </h5>
                   <div class="card-body" class="btn btn-outline-dark">
-                    <p class="card-text">{"date: " + el.date}</p>
-
+                    <p class="card-text">{"Uploaded at: " + el.date}</p>
+                    {/* <p class="card-text">{"description: " + el.description}</p> */}
+                    {/* <p class="card-text">{"Availability Status: " + el.isClosed}</p> */}
                     {/* <button
                       type="button"
                       class="btn btn-outline-dark"
-                      onClick={e => {
-                        this.closetask(el.id);
-                        window.location.reload();
-                      }}
+                      onClick={this.closetask.bind(el.id)}
                     >
-                      change to close
+                      Close task
                     </button> */}
 
                     <button
                       type="button"
                       class="btn btn-outline-dark"
-                      onClick={e => {
-                        this.deletetask(e, el.id);
-                        window.location.reload();
-                      }}
+                      onClick={this.deletetask.bind(el.id)}
                     >
                       Delete task
                     </button>
                   </div>
-                  <Link to={`/viewtask/${userID}/${el.id}`}>
+                  <Link to={`/viewmytask/${userID}/${el.id}`}>
                     <button type="button" class="btn btn-outline-dark">
                       View task details
                     </button>
@@ -117,7 +118,7 @@ class uploadedtasks extends Component {
           </div>
         ) : (
           <div>
-            <h2>loading or No task is found.</h2>
+            <h2>No task is found.</h2>
           </div>
         )}
       </div>

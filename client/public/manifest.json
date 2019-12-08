@@ -1,6 +1,7 @@
 {
-  "short_name": "Hire",
+   "short_name": "HwB",
   "name": "Hire without borders",
+  "description":"Get any task done",
   "icons": [
     {
       "src": "logo.ico",
