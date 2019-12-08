@@ -36,16 +36,16 @@ class myprofile extends Component {
       .then(res => res.json())
       .then(info => this.setState({ info }));
     this.setState({
-      name: this.state.info.data.memberFullName,
-      email: this.state.info.data.email,
-      field: this.state.info.data.field,
-      major: this.state.info.data.major,
-      qualification: this.state.info.data.qualification,
-      dateOfBirth: this.state.info.data.dateOfBirth,
-      university: this.state.info.data.university,
-      phoneNumber: this.state.info.data.phoneNumber,
-      experienceLevel: this.state.info.data.experienceLevel,
-      yearOfGraduation: this.state.info.data.yearOfGraduation
+      name: this.state.info.memberFullName,
+      email: this.state.info.email,
+      field: this.state.info.field,
+      major: this.state.info.major,
+      qualification: this.state.info.qualification,
+      dateOfBirth: this.state.info.dateOfBirth,
+      university: this.state.info.university,
+      phoneNumber: this.state.info.phoneNumber,
+      experienceLevel: this.state.info.experienceLevel,
+      yearOfGraduation: this.state.info.yearOfGraduation
     });
   }
   render() {
@@ -129,6 +129,11 @@ class myprofile extends Component {
                 >
                   {"Qualifications: " + this.state.qualification}
                 </h5>
+                <Link to={`/editprofile`}>
+                  <button type="button" class="btn btn-outline-dark">
+                    edit
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

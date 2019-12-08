@@ -5,8 +5,6 @@ var express = require("express"),
 (global.io = require("socket.io").listen(server)),
   server.listen(process.env.PORT || 8081);
 
-
-  
 //--------------------cors--------------------------------------------------
 const cors = require("cors");
 const path = require("path");
