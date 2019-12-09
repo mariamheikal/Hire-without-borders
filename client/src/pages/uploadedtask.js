@@ -69,40 +69,26 @@ class uploadedtasks extends Component {
           <div>
             {tasks.map(el => {
               return (
-                <div key={el.id} class="card">
-                  <h5 class="card-header">
+                <div key={el.id} class="card" containerStyle={{padding: 0}}>
+                  <h4 style={{ "font-family": "Century Gothic" }}  class="card-header">
                     {el.name}
-                  </h5>
+                  </h4>
                   <div class="card-body" >
-                    <p class="card-text">{"Uploaded at: " + el.date}</p>
-                    <button
-                      type="button"
-                      class="btn btn-outline-dark"
-                      onClick={this.closetask.bind(el.id)}
-                    >
-                      Close task
-                    </button>
+                    <h5 style={{ "font-family": "Century Gothic" }}  class="card-text">{"Uploaded at: " + el.date}</h5>
 
-                    <button
-                      type="button"
-                      class="btn btn-outline-dark"
-                      onClick={this.deletetask.bind(el.id)}
-                    >
-                      Delete task
-                    </button>
-                  </div>
+               
                   <Link to={`/viewmytask/${userID}/${el.id}`}>
-                    <button type="button" class="btn btn-outline-dark">
+                    <button type="button" style={{ "font-family": "Century Gothic" }}  class="btn btn-outline-dark">
                       View task details
                     </button>
                   </Link>
-                </div>
+                </div>   </div>
               );
             })}
           </div>
         ) : (
           <div>
-            <h2>No task is found.</h2>
+            <h2 style={{ "font-family": "Century Gothic" }} >You did not upload any tasks yet! Go ahead and start uploading.</h2>
           </div>
         )}
       </div>

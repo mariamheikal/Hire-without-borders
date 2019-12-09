@@ -96,31 +96,24 @@ class home extends Component {
                      <h5 style={{ "font-family": "Century Gothic" }} class="card-text">  {"Required Skills: " + el.requiredSkills}</h5>
                   
 <Link to={`/applyInAtask/${userID}/${el._id}`}>
-<button
-                      type="button"
-                      // onClick={e => {
-                      //   this.apply(e, el._id);
-                      //   //window.location.reload();
-                      // }}
-                      class="btn btn-outline-dark"
-                    >
+                    <button type="button" style={{ "font-family": "Century Gothic" , "color":"grey"}}  class="btn btn-outline-dark">
+
                      Apply
                     </button>
-
                   </Link>
-                  </div>
                   <Link to={`/viewtask/${userID}/${el._id}`}>
-                    <button type="button" class="btn btn-outline-dark">
+                    <button type="button" style={{ "font-family": "Century Gothic" , "color":"grey"}}  class="btn btn-outline-dark">
                       View task details
                     </button>
                   </Link>
-                </div>
+                </div> 
+                 </div>
               );
             })}
           </div>
         ) : (
           <div>
-            <h2>No task is found.</h2>
+            <h2>No tasks are posted yet! Tune up for some time.</h2>
           </div>
         )}
       </div>

@@ -14,8 +14,8 @@ const user = require("./routes/api/user");
 //--------------------Mongoose + DB configuration---------------------------
 var mongoose = require("mongoose");
 const db = require("./config/keys_dev").mongoURI;
-//console.log(process.env.MONGO_URI);
-
+console.log(db);
+//require('dotenv').config({ debug: process.env.DEBUG })
 // Connect to mongo
 mongoose
   .connect(db)

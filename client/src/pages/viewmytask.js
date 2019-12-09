@@ -47,16 +47,23 @@ console.log(this.state.task);
 });
 };
 
-closetask(taskid) {
-// const coID = this.props.coID;
-// console.log("test " + coID);
-fetch(`http://localhost:3333/api/user/closeTask/${taskid}`, {
-method: "PUT",
-headers: {
+
+  closeTask= async () =>{
+ const taskID = this.state.taskID;
+ const userID = this.state.userID;  
+//e.preventDefault();
+ console.log(taskID);
+
+await fetch(`http://localhost:3333/api/user/closeTask/${taskID}`, {
+  method: "PUT",
+  headers: {
     "Content-Type": "application/json"
-}
-});
-}
+  }
+})
+  .then(res => res.json())
+
+// this.getList()
+};
 
 
 render() {
@@ -79,22 +86,19 @@ return (
 <div class="b">
             <h2  style={{ "font-family": "Century Gothic" }} class="card-header">{this.state.title}</h2>
             <div class="card-body">
-                <p  style={{ "font-family": "Century Gothic" }} class="card-text" >{"Description: "+this.state.description}</p>
-                <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Experience field: "+this.state.field}</p>
-                <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Required Skills: "+this.state.requiredSkills}</p>
-                <p  style={{ "font-family": "Century Gothic" }} class="card-text">{"Availability Status: "+Availability}</p>
+                <p  style={{ "font-family": "Century Gothic" }} class="a" >{"Description: "+this.state.description}</p>
+                <p  style={{ "font-family": "Century Gothic" }} class="a">{"Experience field: "+this.state.field}</p>
+                <p  style={{ "font-family": "Century Gothic" }} class="a">{"Required Skills: "+this.state.requiredSkills}</p>
+                <p  style={{ "font-family": "Century Gothic" }} class="a">{"Availability Status: "+Availability}</p>
 
                 <Link to={`/viewapplicants/${taskID}`}>
-                    <button type="button" class="btn btn-outline-dark">
+                    <button type="button" style={{ "font-family": "Century Gothic" , "color":"#D3D3D3"}}  class="btn btn-outline-dark">
                       View task applicants
                     </button>
                   </Link>
 
-<button
-                type="button"
-                class="btn btn-outline-dark"
-                onClick={this.closetask.bind(taskID)}
-                >
+<button  type="button" style={{ "font-family": "Century Gothic" , "color":"#D3D3D3"}}   class="btn btn-outline-dark" onClick={e=>{this.closeTask();
+ window.location.reload();}}>
                 Close task
                 </button>
                 

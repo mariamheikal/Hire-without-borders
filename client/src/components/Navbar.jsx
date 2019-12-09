@@ -49,9 +49,9 @@ class NavbarPage extends Component {
 
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
-            href="/appliedtasks"
+            href={`/appliedtasks/${userID}`}
           >
-            Applied tasks
+            My applied in tasks
           </Nav.Link>
         </Nav>
 

@@ -136,7 +136,7 @@ class Login extends Component {
     `}
           </style>
 
-          <Jumbotron>
+          <Jumbotron buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}>
             <h1
               style={{ "font-family": "Century Gothic", "font-weight": "bold" }}
             >

@@ -30,7 +30,7 @@ gettask = async () => {
       const userID = this.props.match.params.userID;
       const taskID = this.state.taskID;
   // const coID = this.props.coID;
-  // console.log("test " + coID);
+  console.log("test " + taskID);
   await fetch(`http://localhost:3333/api/user/viewTask/${taskID}`)
     .then(res => res.json())
     .then(task => this.setState({ task }));

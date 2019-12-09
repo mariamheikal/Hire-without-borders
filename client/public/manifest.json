@@ -2,11 +2,8 @@
    "short_name": "HwB",
   "name": "Hire without borders",
   "description":"Get any task done",
-<<<<<<< HEAD
   "start_url": "/",
   "display": "standalone",
-=======
->>>>>>> 5179677fa1c0e012b7d783ec7ed600284f7e951d
   "icons": [
     {
       "src": "logo.ico",

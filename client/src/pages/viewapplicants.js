@@ -41,22 +41,22 @@ class viewapplicants extends Component {
         {applicants.length ? (
           <div>
             {applicants.map(el => {
-              console.log(el)
+              console.log(el._id)
               return (
-                <div key={el.applicantID} class="card">
-                  <h5 class="card-header" >
+                <div key={el.applicantID}  class="card" >
+                  <h5 class="card-header"  style={{ "font-family": "Century Gothic" }}>
                     {el.name} 
                   </h5>
                   <div class="card-body" >
-                    <p class="card-text">{"Field of experience: " + el.field}</p>
-                    <p class="card-text">{"Major: " + el.major}</p>
-                    <p class="card-text">{"Experience Level: " + el.experienceLevel}</p>
-                    <NavLink
+                    <p  style={{ "font-family": "Century Gothic" }}  class="card-text">{"Field of experience: " + el.field}</p>
+                    <p  style={{ "font-family": "Century Gothic" }}  class="card-text">{"Major: " + el.major}</p>
+                    <p style={{ "font-family": "Century Gothic" }}  class="card-text">{"Experience Level: " + el.experienceLevel}</p>
+                    {/* <NavLink
                   style={{ "font-family": "Century Gothic" }}
                    to={`/applicantProfile/${el.applicantID}`}
                 >
                     View applicant profile
-                </NavLink>
+                </NavLink> */}
 
                   </div>
                 </div>
@@ -65,7 +65,7 @@ class viewapplicants extends Component {
           </div>
         ) : (
           <div>
-            <h2>No task is found.</h2>
+            <h2>No one applied in this task yet.</h2>
           </div>
         )}
       </div>

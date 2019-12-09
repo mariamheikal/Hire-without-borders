@@ -7,7 +7,7 @@ import signup from "./pages/signup";
 import uploadedtasks from "./pages/uploadedtask";
 import createtask from "./pages/createtask";
 import myprofile from "./pages/myprofile";
-import appliedtasks from "./pages/appliedtask";
+import appliedtasks from "./pages/appliedtasks";
 import viewtask from "./pages/viewtask";
 import viewmytask from "./pages/viewmytask";
 import editprofile from "./pages/editprofile";
@@ -27,7 +27,7 @@ class App extends Component {
           <Route exact path="/signup" component={signup} />
           <Route exact path="/uploadedtasks/:userID" component={uploadedtasks} />
           <Route exact path="/createtask/:userID" component={createtask} />
-          <Route exact path="/appliedtasks" component={appliedtasks} />
+          <Route exact path="/appliedtasks/:userID" component={appliedtasks} />
           <Route exact path="/myprofile/:userID" component={myprofile} />
           <Route exact path="/viewtask/:userID/:taskID" component={viewtask} />
           <Route exact path="/viewmytask/:userID/:taskID" component={viewmytask} />

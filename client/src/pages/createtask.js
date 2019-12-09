@@ -156,7 +156,7 @@ console.log("CREATE TASK");
         <h2 style={{ "font-family":"Century Gothic","font-weight": "bold"}}>Create a task</h2>
         <br />
         
-        <h3 style={{"font-family":"Century Gothic"}}> Fill in task's details </h3>
+        <h3 style={{"font-family":"Century Gothic", "color":"grey" }}> Fill in task's details </h3>
         <Form>
           <Form.Group controlId="formGridTitle">
             <Form.Label style={{"font-family":"Century Gothic"}}>Title  </Form.Label>

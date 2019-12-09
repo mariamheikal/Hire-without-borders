@@ -212,6 +212,7 @@ router.put("/applyForTask/:userID/:taskId", async (req, res) => {
 //Close task --Tested--
 router.put("/closeTask/:taskId", async (req, res) => {
   try {
+    console.log("CLOSE TASK");
     const taskID = req.params.taskId;
     const task = await Task.findById(taskID);
     if (task === null) return res.json("This task does not exist");
