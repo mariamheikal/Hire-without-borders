@@ -4,7 +4,7 @@
   "description":"Get any task done",
   "start_url": "/",
   "display": "standalone",
-  "icons": [
+ "icons": [
     {
       "src": "logo.ico",
       "sizes": "64x64 32x32 24x24 16x16",

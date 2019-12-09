@@ -51,12 +51,8 @@ class viewapplicants extends Component {
                     <p  style={{ "font-family": "Century Gothic" }}  class="card-text">{"Field of experience: " + el.field}</p>
                     <p  style={{ "font-family": "Century Gothic" }}  class="card-text">{"Major: " + el.major}</p>
                     <p style={{ "font-family": "Century Gothic" }}  class="card-text">{"Experience Level: " + el.experienceLevel}</p>
-                    {/* <NavLink
-                  style={{ "font-family": "Century Gothic" }}
-                   to={`/applicantProfile/${el.applicantID}`}
-                >
-                    View applicant profile
-                </NavLink> */}
+                    <p style={{ "font-family": "Century Gothic" }}  class="card-text">{"Email: " + el.email}</p>
+                    <p style={{ "font-family": "Century Gothic" }}  class="card-text">{"Phone number: " + el.phoneNumber}</p>
 
                   </div>
                 </div>

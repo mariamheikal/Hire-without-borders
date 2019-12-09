@@ -69,7 +69,7 @@ fetch(`http://localhost:3333/api/user/applyForTask/${userID}/${taskID}`, {
              {name}, You successfully applied to the task. Wait for an email or a phone call from the task's owner. 
               </h3>
               <div class="card-body">
-              <h5 style={{ "font-family": "Century Gothic" }}> Always dig for tasks and contionously apply! Best of luck. </h5>
+              <h5 style={{ "font-family": "Century Gothic" }}> Always dig for tasks and contionously apply! Tune up for more tasks to be posted everyday. </h5>
             </div>
             </div>
           </div>

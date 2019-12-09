@@ -10,10 +10,9 @@ import myprofile from "./pages/myprofile";
 import appliedtasks from "./pages/appliedtasks";
 import viewtask from "./pages/viewtask";
 import viewmytask from "./pages/viewmytask";
-import editprofile from "./pages/editprofile";
 import googleLogin from "./pages/googleLogin";
 import applyInAtask from "./pages/applyInAtask";
-import applicantProfile from "./pages/applicantProfile";
+// import applicantProfile from "./pages/applicantProfile";
 import viewapplicants from "./pages/viewapplicants";
 
 class App extends Component {
@@ -21,7 +20,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Route exact path="/" component={Login} />
+        <Route exact path="/" component={Login} />
           <Route exact path="/googleLogin" component={googleLogin} />
           <Route exact path="/home/:userID" component={home} />
           <Route exact path="/signup" component={signup} />
@@ -33,9 +32,6 @@ class App extends Component {
           <Route exact path="/viewmytask/:userID/:taskID" component={viewmytask} />
           <Route exact path="/applyInAtask/:userID/:taskID" component={applyInAtask} />
           <Route exact path="/viewapplicants/:taskID" component={viewapplicants} />
-          <Route exact path="/applicantProfile/:userID" component={applicantProfile} />
-
-                {/* <Route exact path="/editprofile" component={editprofile} /> */}
         </div>
       </Router>
     );

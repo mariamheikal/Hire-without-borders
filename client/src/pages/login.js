@@ -3,9 +3,6 @@ import { Jumbotron, Button, Form, ButtonToolbar } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 import validator from "../validations/validation";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Redirect } from "react-router";
-import { BrowserHistory } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -183,17 +180,17 @@ class Login extends Component {
             </Form>
             <br />
             <ButtonToolbar>
-              <Button
-                style={{ "font-family": "Century Gothic" }}
-                variant="google"
-                onClick={this.handleGoogle}
-              >
+              {/* <Button
+                
+              > */}
                 <Link to={`/googleLogin`}>
-                  <button type="button" class="btn btn-outline-dark">
+                  <button style={{ "font-family": "Century Gothic", "background-color":"red" }}
+                variant="google"
+                onClick={this.handleGoogle} type="button" class="btn btn-outline-light">
                     Sign in with Google+
                   </button>
                 </Link>
-              </Button>
+              {/* </Button> */}
             </ButtonToolbar>
           </Jumbotron>
         </div>

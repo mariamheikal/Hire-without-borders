@@ -1,11 +1,8 @@
+
+// export default appliedtasks;
 import NavbarPage from "../components/Navbar";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
-
-import { Route, NavLink, BrowserRouter } from "react-router-dom";
-import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 class appliedtasks extends Component {
   constructor(props) {
@@ -61,7 +58,7 @@ class appliedtasks extends Component {
           </div>
         ) : (
           <div>
-            <h2>You did not apply in any tasks yet! Go ahead and start applying.</h2>
+            <h2 style={{ "font-family": "Century Gothic" }}>You did not apply in any tasks yet! Go ahead and start applying.</h2>
           </div>
         )}
       </div>

@@ -2,7 +2,7 @@
 var express = require("express"),
   app = express(),
   server = require("http").createServer(app);
-(global.io = require("socket.io").listen(server)),
+//(global.io = require("socket.io").listen(server)),
   server.listen(process.env.PORT || 8081);
 
 //--------------------cors--------------------------------------------------
@@ -15,8 +15,6 @@ const user = require("./routes/api/user");
 var mongoose = require("mongoose");
 const db = require("./config/keys_dev").mongoURI;
 console.log(db);
-//require('dotenv').config({ debug: process.env.DEBUG })
-// Connect to mongo
 mongoose
   .connect(db)
   .then(() => console.log("Connected to MongoDB"))

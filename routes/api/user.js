@@ -515,14 +515,35 @@ router.post("/login", async (req, res) => {
   } catch (e) {}
 });
 
-router.post("/googlelogin", async (req, res) => {
+router.get("/googlelogin/:email", async (req, res) => {
   try {
-    const email = req.body;
+    const email = req.params.email;
+    console.log(email)
     const user = await User.findOne({ email });
+    console.log(user);
     if (!user) return res.status(404).json({ data: "Email does not exist" });
+    const payload = {
+      id: user._id,
+      name: user.memberFullName,
+      email: user.email,
+      field: user.field,
+      major: user.major,
+      qualification: user.qualification,
+      dateOfBirth: user.dateOfBirth,
+      university: user.university,
+      phoneNumber: user.memberPhoneNumber,
+      experienceLevel: user.experienceLevel,
+      yearOfGraduation: user.yearOfGraduation
+    };
+    const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+    console.log(token);
+    store.set("token", token);
+    console.log(payload);
+    console.log("added");
+    res.json({ token: `Bearer ${token}` });
+    console.log(` ${token}`);
 
-
-      res.json(user);
+     // res.json(user);
       console.log("End of login with google");
       //res.json({ data: "logged in" });
   } catch (e) {}
