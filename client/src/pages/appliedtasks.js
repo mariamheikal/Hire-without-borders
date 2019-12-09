@@ -1,11 +1,10 @@
 
+// export default appliedtasks;
 import NavbarPage from "../components/Navbar";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
-
-class uploadedtasks extends Component {
+class appliedtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,51 +18,21 @@ class uploadedtasks extends Component {
 
   componentDidMount() {
     this.gettasks();
-   // this.getUser();
   }
-
   gettasks = async () => {
-        const userID = this.state.userID;
-
     // const coID = this.props.coID;
     // console.log("test " + coID);
-    await fetch(`http://localhost:3333/api/user/viewUploadedTasks`)
+    await fetch(`http://localhost:3333/api/user/appliedTasks`)
       .then(res => res.json())
       .then(tasks => this.setState({ tasks }));
-    console.log(this.state.tasks);
   };
 
-  closetask(taskid) {
-    // const coID = this.props.coID;
-    // console.log("test " + coID);
-    fetch(`http://localhost:3333/api/user/closeTask/${taskid}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-  }
-  
-  deletetask(taskid) {
-        const userID = this.state.userID;
-
-    // const coID = this.props.coID;
-    // console.log("test " + coID);
-    fetch(`http://localhost:3333/api/user/deleteTask/${taskid}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-  }
-
   render() {
-        const userID = this.state.userID;
-    console.log(userID);
-    console.log("UPLOADED TASKS");
     const { tasks } = this.state;
-    console.log(tasks);
-    return (
+            const userID = this.state.userID;
+
+    console.log(this.state.tasks);
+      return (
       <div>
       <NavbarPage userID={this.props.match.params.userID}/>
         {tasks.length ? (
@@ -78,7 +47,7 @@ class uploadedtasks extends Component {
                     <h5 style={{ "font-family": "Century Gothic" }}  class="card-text">{"Uploaded at: " + el.date}</h5>
 
                
-                  <Link to={`/viewmytask/${userID}/${el.id}`}>
+                  <Link to={`/viewtask/${userID}/${el.id}`}>
                     <button type="button" style={{ "font-family": "Century Gothic" }}  class="btn btn-outline-dark">
                       View task details
                     </button>
@@ -89,7 +58,7 @@ class uploadedtasks extends Component {
           </div>
         ) : (
           <div>
-            <h2 style={{ "font-family": "Century Gothic" }} >You did not upload any tasks yet! Go ahead and start uploading.</h2>
+            <h2 style={{ "font-family": "Century Gothic" }}>You did not apply in any tasks yet! Go ahead and start applying.</h2>
           </div>
         )}
       </div>
@@ -97,4 +66,4 @@ class uploadedtasks extends Component {
   }
 }
 
-export default uploadedtasks;
+export default appliedtasks;

@@ -3,9 +3,6 @@ import { Jumbotron, Button, Form, ButtonToolbar } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 import validator from "../validations/validation";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Redirect } from "react-router";
-import { BrowserHistory } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -76,7 +73,7 @@ class Login extends Component {
           window.location = "/";*/
         })
         .catch(function(error) {
-          alert("Wrong Password");
+          alert(error);
           console.log(error);
         });
   };
@@ -111,6 +108,7 @@ class Login extends Component {
 
         backgroundSize: "cover"
       };
+
       return (
         <div>
           <style type="text/css">
@@ -135,7 +133,7 @@ class Login extends Component {
     `}
           </style>
 
-          <Jumbotron>
+          <Jumbotron buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}>
             <h1
               style={{ "font-family": "Century Gothic", "font-weight": "bold" }}
             >
@@ -182,19 +180,23 @@ class Login extends Component {
             </Form>
             <br />
             <ButtonToolbar>
-              <Button
-                style={{ "font-family": "Century Gothic" }}
+              {/* <Button
+                
+              > */}
+                <Link to={`/googleLogin`}>
+                  <button style={{ "font-family": "Century Gothic", "background-color":"red" }}
                 variant="google"
-                onClick={this.handleGoogle}
-              >
-                Sign in with Google+
-              </Button>
+                onClick={this.handleGoogle} type="button" class="btn btn-outline-light">
+                    Sign in with Google+
+                  </button>
+                </Link>
+              {/* </Button> */}
             </ButtonToolbar>
           </Jumbotron>
         </div>
       );
     } else {
-      this.props.history.push(`/home`);
+      this.props.history.push(`/home/${userID}`);
     }
 
     return <div />;

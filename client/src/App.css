@@ -13,10 +13,12 @@ h5 {
 h3 {
   color:black;
 }
-p {
+p.a{
   color: #D3D3D3;
 }
-
+p{
+  color: grey;
+}
 div.a {
   text-align: center;
 }
@@ -32,3 +34,10 @@ div.c {
 div.d {
   text-align: justify;
 } 
+
+div.card {
+  width: 65%;
+  margin: 0 auto;
+  border: 2px solid #A9A9A9;
+}
+

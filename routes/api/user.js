@@ -139,7 +139,7 @@ router.post("/createNewUserAccount", async (req, res) => {
 });
 
 //Apply for a task --Tested--
-router.put("/applyForTask/:taskId", async (req, res) => {
+router.put("/applyForTask/:userID/:taskId", async (req, res) => {
   jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
     if (err) {
       //If error send Forbidden (403)
@@ -149,10 +149,12 @@ router.put("/applyForTask/:taskId", async (req, res) => {
       try {
         console.log("APPLY");
         const taskID = req.params.taskId;
-        const applID = authorizedData.id;
+        console.log(taskID);
+
+        const applID = req.params.userID;
         console.log(applID);
         const task = await Task.findById(taskID);
-        const user = await User.findById(authorizedData.id);
+        const user = await User.findById(applID);
         if (task === null) return res.json("This task does not exist");
         else if (user === null) return res.json("This user does not exist");
         if (task.isClosed === false) {
@@ -203,13 +205,14 @@ router.put("/applyForTask/:taskId", async (req, res) => {
       } catch (error) {
         res.json({ error: error.message });
       }
-    }
+   }
   });
 });
 
 //Close task --Tested--
 router.put("/closeTask/:taskId", async (req, res) => {
   try {
+    console.log("CLOSE TASK");
     const taskID = req.params.taskId;
     const task = await Task.findById(taskID);
     if (task === null) return res.json("This task does not exist");
@@ -278,7 +281,7 @@ router.get("/viewprofile", async (req, res) => {
         console.log("view profile");
         const user = await User.find({ _id: authorizedData.id });
         if (user === undefined) return res.json("user does not exist");
-        res.json({ data: user.pop() });
+        res.json(user.pop());
       } catch (error) {
         res.json({ error: error.message });
       }
@@ -300,37 +303,44 @@ router.get("/getUserInfo/:idC", async (req, res) => {
 });
 
 //edit my Profile
-router.put("/updateprofile/:idC", async (req, res) => {
-  try {
-    const user = await User.findOne({ _id: req.params.idC });
-    if (user === undefined)
-      return res.status(404).send({ error: "User does not exist" });
+router.put("/updateprofile", async (req, res) => {
+  jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
+    if (err) {
+      res.json({ tasks: "you are not authorized to view this page" });
+      console.log(err);
+    } else {
+      try {
+        const user = await User.findOne({ _id: authorizedData.id });
+        if (user === undefined)
+          return res.status(404).send({ error: "User does not exist" });
 
-    const isValidated = validator.updateValidation(req.body);
-    if (isValidated.error)
-      return res
-        .status(400)
-        .send({ error: isValidated.error.details[0].message });
+        const isValidated = validator.updateValidation(req.body);
+        if (isValidated.error)
+          return res
+            .status(400)
+            .send({ error: isValidated.error.details[0].message });
 
-    const updatedprofile = await User.updateOne(
-      { _id: req.params.idC },
-      req.body,
-      (err, doc) => {
-        if (err) {
-          console.log("Something wrong when updating data!");
-        }
+        const updatedprofile = await User.updateOne(
+          { _id: req.params.idC },
+          req.body,
+          (err, doc) => {
+            if (err) {
+              console.log("Something wrong when updating data!");
+            }
 
-        console.log(doc);
+            console.log(doc);
+          }
+        );
+
+        res.json({
+          msg: "Profile was updated successfully",
+          data: updatedprofile
+        });
+      } catch (error) {
+        res.json({ error: error.message });
       }
-    );
-
-    res.json({
-      msg: "Profile was updated successfully",
-      data: updatedprofile
-    });
-  } catch (error) {
-    res.json({ error: error.message });
-  }
+    }
+  });
 });
 
 //delete my profile
@@ -504,6 +514,42 @@ router.post("/login", async (req, res) => {
     } else return res.status(400).send({ data: "Wrong password" });
   } catch (e) {}
 });
+
+router.get("/googlelogin/:email", async (req, res) => {
+  try {
+    const email = req.params.email;
+    console.log(email)
+    const user = await User.findOne({ email });
+    console.log(user);
+    if (!user) return res.status(404).json({ data: "Email does not exist" });
+    const payload = {
+      id: user._id,
+      name: user.memberFullName,
+      email: user.email,
+      field: user.field,
+      major: user.major,
+      qualification: user.qualification,
+      dateOfBirth: user.dateOfBirth,
+      university: user.university,
+      phoneNumber: user.memberPhoneNumber,
+      experienceLevel: user.experienceLevel,
+      yearOfGraduation: user.yearOfGraduation
+    };
+    const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+    console.log(token);
+    store.set("token", token);
+    console.log(payload);
+    console.log("added");
+    res.json({ token: `Bearer ${token}` });
+    console.log(` ${token}`);
+
+     // res.json(user);
+      console.log("End of login with google");
+      //res.json({ data: "logged in" });
+  } catch (e) {}
+});
+
+
 
 router.get("/logout", async (req, res) => {
   console.log("logout");

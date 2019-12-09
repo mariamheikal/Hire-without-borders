@@ -1,6 +1,6 @@
 import NavbarPage from "../components/Navbar";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 
 class viewapplicants extends Component {
@@ -16,7 +16,7 @@ class viewapplicants extends Component {
   // Fetch the list on first mount
 
   componentDidMount() {
-    this.getApplicants();
+    this.gettasks();
   }
 
   gettasks = async () => {
@@ -30,6 +30,7 @@ class viewapplicants extends Component {
 
   render() {
         const userID = this.state.userID;
+        const taskID = this.state.taskID;
     console.log(userID);
     console.log("View Applicants");
     const { applicants } = this.state;
@@ -40,35 +41,27 @@ class viewapplicants extends Component {
         {applicants.length ? (
           <div>
             {applicants.map(el => {
+              console.log(el._id)
               return (
-                <div key={el.applicantID} class="card">
-                  <h5 class="card-header" >
-                    {el.name}
+                <div key={el.applicantID}  class="card" >
+                  <h5 class="card-header"  style={{ "font-family": "Century Gothic" }}>
+                    {el.name} 
                   </h5>
                   <div class="card-body" >
-                    <p class="card-text">{"Field of experience: " + el.field}</p>
-                    <p class="card-text">{"Major: " + el.major}</p>
-                    <p class="card-text">{"Experience Level: " + el.experienceLevel}</p>
-                    <NavLink
-                  style={{ "font-family": "Century Gothic" }}
-                   to={`/viewapplicants/${taskID}`}
-                >
-                    View applicant profile
-                </NavLink>
+                    <p  style={{ "font-family": "Century Gothic" }}  class="card-text">{"Field of experience: " + el.field}</p>
+                    <p  style={{ "font-family": "Century Gothic" }}  class="card-text">{"Major: " + el.major}</p>
+                    <p style={{ "font-family": "Century Gothic" }}  class="card-text">{"Experience Level: " + el.experienceLevel}</p>
+                    <p style={{ "font-family": "Century Gothic" }}  class="card-text">{"Email: " + el.email}</p>
+                    <p style={{ "font-family": "Century Gothic" }}  class="card-text">{"Phone number: " + el.phoneNumber}</p>
 
                   </div>
-                  <Link to={`/viewmytask/${userID}/${el.id}`}>
-                    <button type="button" class="btn btn-outline-dark">
-                      View task details
-                    </button>
-                  </Link>
                 </div>
               );
             })}
           </div>
         ) : (
           <div>
-            <h2>No task is found.</h2>
+            <h2>No one applied in this task yet.</h2>
           </div>
         )}
       </div>

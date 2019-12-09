@@ -6,10 +6,9 @@ module.exports = {
     const taskSchema = {
       title: Joi.string().required(),
       description: Joi.string().required(),
-      //ownerID: Joi.required(),
+      ownerID: Joi.required(),
       applicants: Joi.array(),
-      field:Joi.string().required(),
-      requiredSkills: Joi.array().required()
+      field:Joi.string().required()
     }
     return Joi.validate(request, taskSchema);
   },
@@ -19,19 +18,18 @@ module.exports = {
       memberFullName: Joi.string().required(),
       email: Joi.string().required().email(),
       password: Joi.string().required(),
-      dateOfBirth: Joi.string().required(),
-      memberPhoneNumber: Joi.string().required(),
+      dateOfBirth: Joi.string(),
+      memberPhoneNumber: Joi.string(),
       isExpert: Joi.boolean(),      
       completedTasks: Joi.array(),
       acceptedTasks: Joi.array(),
       appliedInTasks: Joi.array(),
       uploadedTasks: Joi.array(),
-      experienceLevel: Joi.number().min(0).max(5).required(),
+      experienceLevel: Joi.number().min(0).max(5),
       qualification: Joi.array(),
-      university: Joi.string().required(),
-      major: Joi.string().required(),
-      yearOfGraduation: Joi.string(),
-      field: Joi.string().required()
+      university: Joi.string(),
+      major: Joi.string(),
+      yearOfGraduation: Joi.string()
     };
 
     return Joi.validate(request, createSchema);
