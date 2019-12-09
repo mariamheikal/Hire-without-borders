@@ -8,14 +8,9 @@ const InfoSchema = new Schema({
     },
     name: {
         type: String,
-
     },
     date:{
-        type:String
-    },
-    status: {
-        type: String,
-        required: false
+        type:Date
     }
 
 },{ _id : false });
@@ -61,7 +56,7 @@ const UserSchema = new Schema({
         type: Number,
         enum: [0, 1, 2, 3, 4, 5]
     },
-    qualification: [],
+    qualification: [SkillSchema],
     university: {
         type: String,
         required: false
@@ -74,7 +69,6 @@ const UserSchema = new Schema({
         type: String,
         required: false
     },
-    field: {type:String, required: true}
 
 })
 
