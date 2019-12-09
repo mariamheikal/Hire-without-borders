@@ -15,6 +15,7 @@ import googleLogin from "./pages/googleLogin";
 import applyInAtask from "./pages/applyInAtask";
 import applicantProfile from "./pages/applicantProfile";
 import viewapplicants from "./pages/viewapplicants";
+
 class App extends Component {
   render() {
     return (
