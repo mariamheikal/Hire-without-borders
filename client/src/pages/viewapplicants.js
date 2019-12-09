@@ -1,6 +1,6 @@
 import NavbarPage from "../components/Navbar";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 
 class viewapplicants extends Component {
@@ -16,7 +16,7 @@ class viewapplicants extends Component {
   // Fetch the list on first mount
 
   componentDidMount() {
-    this.getApplicants();
+    this.gettasks();
   }
 
   gettasks = async () => {
@@ -30,6 +30,7 @@ class viewapplicants extends Component {
 
   render() {
         const userID = this.state.userID;
+        const taskID = this.state.taskID;
     console.log(userID);
     console.log("View Applicants");
     const { applicants } = this.state;
@@ -40,10 +41,11 @@ class viewapplicants extends Component {
         {applicants.length ? (
           <div>
             {applicants.map(el => {
+              console.log(el)
               return (
                 <div key={el.applicantID} class="card">
                   <h5 class="card-header" >
-                    {el.name}
+                    {el.name} 
                   </h5>
                   <div class="card-body" >
                     <p class="card-text">{"Field of experience: " + el.field}</p>
@@ -51,17 +53,12 @@ class viewapplicants extends Component {
                     <p class="card-text">{"Experience Level: " + el.experienceLevel}</p>
                     <NavLink
                   style={{ "font-family": "Century Gothic" }}
-                   to={`/viewapplicants/${taskID}`}
+                   to={`/applicantProfile/${el.applicantID}`}
                 >
                     View applicant profile
                 </NavLink>
 
                   </div>
-                  <Link to={`/viewmytask/${userID}/${el.id}`}>
-                    <button type="button" class="btn btn-outline-dark">
-                      View task details
-                    </button>
-                  </Link>
                 </div>
               );
             })}

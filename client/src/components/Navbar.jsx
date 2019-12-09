@@ -23,14 +23,14 @@ class NavbarPage extends Component {
           <text> </text>
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
-            href={`/myprofile`}
+            href={`/myprofile/${userID}`}
             //href="/myprofile//${userID}"
           >
             My profile
           </Nav.Link>
           <Nav.Link
             style={{ color: "#FAFAFA", "font-family": "Century Gothic" }}
-            href={`/home`}
+            href={`/home/${userID}`}
           >
             Home
           </Nav.Link>

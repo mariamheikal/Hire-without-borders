@@ -2,9 +2,6 @@ import NavbarPage from "../components/Navbar";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
-import { Route, NavLink, BrowserRouter } from "react-router-dom";
-import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 
 class uploadedtasks extends Component {
@@ -23,18 +20,7 @@ class uploadedtasks extends Component {
     this.gettasks();
    // this.getUser();
   }
-  // async getUser() {
-  //   const userID = this.state.userID;
-  //   console.log(userID);
-  //   await fetch(`http://localhost:3333/api/user/viewprofile/${userID}`)
-  //     .then(res => res.json())
-  //     .then(info => this.setState({ info }));
-  //     console.log(this.state.info);
-  //     this.setState({
-  //       name: this.state.info.data.memberFullName,
-  //       email: this.state.info.data.email
-  //     });
-  // }
+
   gettasks = async () => {
         const userID = this.state.userID;
 
@@ -55,8 +41,8 @@ class uploadedtasks extends Component {
         "Content-Type": "application/json"
       }
     });
-
   }
+  
   deletetask(taskid) {
         const userID = this.state.userID;
 
@@ -84,20 +70,18 @@ class uploadedtasks extends Component {
             {tasks.map(el => {
               return (
                 <div key={el.id} class="card">
-                  <h5 class="card-header" class="btn btn-outline-dark">
+                  <h5 class="card-header">
                     {el.name}
                   </h5>
-                  <div class="card-body" class="btn btn-outline-dark">
+                  <div class="card-body" >
                     <p class="card-text">{"Uploaded at: " + el.date}</p>
-                    {/* <p class="card-text">{"description: " + el.description}</p> */}
-                    {/* <p class="card-text">{"Availability Status: " + el.isClosed}</p> */}
-                    {/* <button
+                    <button
                       type="button"
                       class="btn btn-outline-dark"
                       onClick={this.closetask.bind(el.id)}
                     >
                       Close task
-                    </button> */}
+                    </button>
 
                     <button
                       type="button"

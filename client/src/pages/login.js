@@ -76,7 +76,7 @@ class Login extends Component {
           window.location = "/";*/
         })
         .catch(function(error) {
-          alert("Wrong Password");
+          alert(error);
           console.log(error);
         });
   };
@@ -111,6 +111,7 @@ class Login extends Component {
 
         backgroundSize: "cover"
       };
+
       return (
         <div>
           <style type="text/css">
@@ -187,14 +188,18 @@ class Login extends Component {
                 variant="google"
                 onClick={this.handleGoogle}
               >
-                Sign in with Google+
+                <Link to={`/googleLogin`}>
+                  <button type="button" class="btn btn-outline-dark">
+                    Sign in with Google+
+                  </button>
+                </Link>
               </Button>
             </ButtonToolbar>
           </Jumbotron>
         </div>
       );
     } else {
-      this.props.history.push(`/home`);
+      this.props.history.push(`/home/${userID}`);
     }
 
     return <div />;

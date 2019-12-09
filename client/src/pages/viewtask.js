@@ -2,9 +2,6 @@ import NavbarPage from "../components/Navbar";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
-import { Route, NavLink, BrowserRouter } from "react-router-dom";
-import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 
 class viewtask extends Component {
@@ -86,7 +83,7 @@ render() {
   console.log(task);  
   return (
     <div>
-    <NavbarPage userID={this.props.match.params.userID}/>
+        <NavbarPage userID={this.props.match.params.userID} />
 <div class="b">
                 <h2  style={{ "font-family": "Century Gothic" }} class="card-header">{this.state.title}</h2>
                 <div class="card-body">
