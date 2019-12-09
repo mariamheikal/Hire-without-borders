@@ -10,9 +10,10 @@ firebase.initializeApp({
   //   authDomain: process.env.authDomain
 });
 
-class googlogin extends Component {
-  state = { isSignedIn: false };
-  uiConfig = {
+class googleLogin extends Component {
+  state = { 
+    isSignedIn: false };
+    uiConfig = {
     signInFlow: "popup",
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID
@@ -53,4 +54,4 @@ class googlogin extends Component {
   }
 }
 
-export default googlogin;
+export default googleLogin;

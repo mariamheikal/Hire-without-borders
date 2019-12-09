@@ -11,7 +11,10 @@ import appliedtasks from "./pages/appliedtask";
 import viewtask from "./pages/viewtask";
 import viewmytask from "./pages/viewmytask";
 import editprofile from "./pages/editprofile";
-import googlogin from "./pages/googlogin";
+import googleLogin from "./pages/googleLogin";
+import applyInAtask from "./pages/applyInAtask";
+import applicantProfile from "./pages/applicantProfile";
+import viewapplicants from "./pages/viewapplicants";
 
 class App extends Component {
   render() {
@@ -19,23 +22,20 @@ class App extends Component {
       <Router>
         <div className="App">
           <Route exact path="/" component={Login} />
-          <Route exact path="/googlogin" component={googlogin} />
-          <Route exact path="/home" component={home} />
+          <Route exact path="/googleLogin" component={googleLogin} />
+          <Route exact path="/home/:userID" component={home} />
           <Route exact path="/signup" component={signup} />
-          <Route exact path="/uploadedtasks" component={uploadedtasks} />
-          <Route exact path="/createtask" component={createtask} />
-          <Route exact path="/myprofile" component={myprofile} />
-          <Route exact path="/appliedtasks" component={appliedtasks} />
-          <Route
-            exact
-            path="/uploadedtasks/:userID"
-            component={uploadedtasks}
-          />
+          <Route exact path="/uploadedtasks/:userID" component={uploadedtasks} />
           <Route exact path="/createtask/:userID" component={createtask} />
+          <Route exact path="/appliedtasks" component={appliedtasks} />
           <Route exact path="/myprofile/:userID" component={myprofile} />
           <Route exact path="/viewtask/:userID/:taskID" component={viewtask} />
           <Route exact path="/viewmytask/:userID/:taskID" component={viewmytask} />
-                <Route exact path="/editprofile" component={editprofile} />
+          <Route exact path="/applyInAtask/:userID/:taskID" component={applyInAtask} />
+          <Route exact path="/viewapplicants/:taskID" component={viewapplicants} />
+          <Route exact path="/applicantProfile/:userID" component={applicantProfile} />
+
+                {/* <Route exact path="/editprofile" component={editprofile} /> */}
         </div>
       </Router>
     );
