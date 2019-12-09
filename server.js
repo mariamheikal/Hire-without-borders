@@ -2,8 +2,8 @@
 var express = require("express"),
   app = express(),
   server = require("http").createServer(app);
-(global.io = require("socket.io").listen(server)),
-  server.listen(process.env.PORT || 4000);
+ server.listen(process.env.PORT || 8081);
+
 
 //--------------------cors--------------------------------------------------
 const cors = require("cors");
@@ -14,9 +14,7 @@ const user = require("./routes/api/user");
 //--------------------Mongoose + DB configuration---------------------------
 var mongoose = require("mongoose");
 const db = require("./config/keys_dev").mongoURI;
-//console.log(process.env.MONGO_URI);
-
-// Connect to mongo
+console.log(db);
 mongoose
   .connect(db)
   .then(() => console.log("Connected to MongoDB"))
