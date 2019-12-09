@@ -139,7 +139,7 @@ router.post("/createNewUserAccount", async (req, res) => {
 });
 
 //Apply for a task --Tested--
-router.put("/applyForTask/:taskId", async (req, res) => {
+router.put("/applyForTask/:userID/:taskId", async (req, res) => {
   jwt.verify(store.get("token"), tokenKey, async (err, authorizedData) => {
     if (err) {
       //If error send Forbidden (403)
@@ -149,10 +149,12 @@ router.put("/applyForTask/:taskId", async (req, res) => {
       try {
         console.log("APPLY");
         const taskID = req.params.taskId;
-        const applID = authorizedData.id;
+        console.log(taskID);
+
+        const applID = req.params.userID;
         console.log(applID);
         const task = await Task.findById(taskID);
-        const user = await User.findById(authorizedData.id);
+        const user = await User.findById(applID);
         if (task === null) return res.json("This task does not exist");
         else if (user === null) return res.json("This user does not exist");
         if (task.isClosed === false) {
@@ -203,7 +205,7 @@ router.put("/applyForTask/:taskId", async (req, res) => {
       } catch (error) {
         res.json({ error: error.message });
       }
-    }
+   }
   });
 });
 
@@ -511,6 +513,21 @@ router.post("/login", async (req, res) => {
     } else return res.status(400).send({ data: "Wrong password" });
   } catch (e) {}
 });
+
+router.post("/googlelogin", async (req, res) => {
+  try {
+    const email = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ data: "Email does not exist" });
+
+
+      res.json(user);
+      console.log("End of login with google");
+      //res.json({ data: "logged in" });
+  } catch (e) {}
+});
+
+
 
 router.get("/logout", async (req, res) => {
   console.log("logout");

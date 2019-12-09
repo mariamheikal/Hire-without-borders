@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-class myprofile extends Component {
+class applicantProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +28,7 @@ class myprofile extends Component {
   }
   async getUser() {
     const userID = this.state.userID;
-    await fetch(`http://localhost:3333/api/user/viewprofile`)
+    await fetch(`http://localhost:3333/api/user/applicantProfile/:userID`)
       .then(res => res.json())
       .then(info => this.setState({ info }));
     this.setState({
@@ -45,7 +45,7 @@ class myprofile extends Component {
     });
   }
   render() {
-    console.log("MY PROFILE");
+    console.log("Applicant PROFILE");
     const { info } = this.state;
     const userID = this.state.userID;
     console.log(info);
@@ -62,7 +62,7 @@ class myprofile extends Component {
                 style={{ "font-family": "Century Gothic" }}
                 class="card-header"
               >
-                Your personal information
+               Applicant's profile
               </h3>
               <div class="card-body">
                 <h5
@@ -139,4 +139,4 @@ class myprofile extends Component {
   }
 }
 
-export default myprofile;
+export default applicantProfile;

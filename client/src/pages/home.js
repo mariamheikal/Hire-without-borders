@@ -3,9 +3,6 @@ import NavbarPage from "../components/Navbar";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
-import { Route, NavLink, BrowserRouter } from "react-router-dom";
-import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 
 class home extends Component {
@@ -32,10 +29,12 @@ class home extends Component {
       console.log(this.state.tasks);
   };
 
-  applyForTask(taskid, userID) {
-
+  applyForTask(taskid) {
+   const userID=window.location.pathname.split("/").pop()
     // const coID = this.props.coID;
-     console.log("test " + taskid);
+    console.log(taskid)
+     console.log("userID.................. "+userID);
+   //  console.log("user"+userID)
     fetch(`http://localhost:3333/api/user/applyForTask/${userID}/${taskid}`, {
       method: "PUT",
       headers: {
@@ -49,13 +48,33 @@ class home extends Component {
             "You successfully applied in the task."
           );
         });
-    
 
   }
 
+
+  apply = (e, a) => {
+        const taskID = a;
+    const userID = this.state.userID;  
+    e.preventDefault();
+    let databody = [taskID];
+    console.log(databody);
+  
+    fetch(`http://localhost:3333/api/user/applyForTask/${userID}/${taskID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then(json => this.setState({ res: json })
+      );
+    // this.getList()
+  };
+
+
   render() {
         const userID = this.state.userID;
-    console.log(userID);
+    console.log("USER"+userID);
     console.log("UPLOADED TASKS");
     const { tasks } = this.state;
     console.log(tasks);
@@ -65,7 +84,8 @@ class home extends Component {
         {tasks.length ? (
           <div>
             {tasks.map(el => {
-              console.log(el.id)
+              const taskid = el._id;
+              console.log("task .............. "+taskid)
               return (
                 <div key={el._id} class="card">
                   <h5  style={{ "font-family": "Century Gothic" }} class="card-header" >
@@ -74,15 +94,20 @@ class home extends Component {
                   <div class="card-body" >
                       <h5 style={{ "font-family": "Century Gothic" }} class="card-text">{"Description: " + el.description}</h5>
                      <h5 style={{ "font-family": "Century Gothic" }} class="card-text">  {"Required Skills: " + el.requiredSkills}</h5>
-                    <button
+                  
+<Link to={`/applyInAtask/${userID}/${el._id}`}>
+<button
                       type="button"
+                      // onClick={e => {
+                      //   this.apply(e, el._id);
+                      //   //window.location.reload();
+                      // }}
                       class="btn btn-outline-dark"
-                      onClick={this.applyForTask.bind(el.id,userID)}
                     >
                      Apply
                     </button>
 
-  
+                  </Link>
                   </div>
                   <Link to={`/viewtask/${userID}/${el._id}`}>
                     <button type="button" class="btn btn-outline-dark">
